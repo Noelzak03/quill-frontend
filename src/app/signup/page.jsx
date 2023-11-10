@@ -1,3 +1,5 @@
+//Sign Up Page
+
 'use client'
 import Quill from '../components/Quill';
 import Link from 'next/link';
@@ -18,7 +20,7 @@ export default function Signup() {
 
     if (pwd.length < 8) {
       alert('Password must be at least 8 characters long.');
-      setFormData({ ...formData, password: '', confirmPassword: '' }); // Reset password fields
+      setFormData({ ...formData, password: '', confirmPassword: '' }); 
       return;
     }
 

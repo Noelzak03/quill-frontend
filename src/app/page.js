@@ -1,10 +1,7 @@
-import Image from 'next/image'
+//Landing Page
 
 export default function Home() {
   return (
-    //<p className="bg-primary p-4">
-    <p>
-      hello world!
-    </p>
+    <h1>Landing Page</h1>
   )
 }
