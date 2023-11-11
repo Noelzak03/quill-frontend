@@ -13,8 +13,8 @@ export default function Signup() {
 
   const [message, action] = useFormState(signup, undefined);
   return (
-    <div className="bg-primary p-10 min-h-screen">
-      <div className="bg-secondary p-10">
+    <div className="bg-primary z-0 min-h-screen">
+      <div className="bg-secondary z-10 fixed top-10 left-10 right-10 bottom-10 p-10">
         <Quill />
         <div>
           <form action={action} className="">
