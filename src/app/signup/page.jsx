@@ -50,10 +50,10 @@ export default function Signup() {
         const data = await response.json();
         console.log('API response:', data);
       } else {
-        console.error('response.message');
+        console.error(response.message);
       }
     } catch (error) {
-      console.error('An error occurred while sending the API request:', error);
+      console.error('error occurred', error);
     }
 
 
