@@ -25,7 +25,7 @@ export default function Signup() {
                 <input
                   type="text"
                   name="username"
-                  className="w-full lg:w-[22rem] border p-2 bg-secondary border-primary"
+                  className="w-full lg:w-[22.25rem] border p-2 bg-secondary border-primary"
                   placeholder="Username"
                   required
                 />
@@ -34,7 +34,7 @@ export default function Signup() {
                 <input
                   type="password"
                   name="password"
-                  className="w-full lg:w-[22rem] border p-2 bg-secondary border-primary"
+                  className="w-full lg:w-[22.25rem] border p-2 bg-secondary border-primary"
                   placeholder="Password"
                   minLength={8}
                   required
@@ -44,7 +44,7 @@ export default function Signup() {
                 <input
                   type="password"
                   name="confirmPassword"
-                  className="w-full lg:w-[22rem] border p-2 bg-secondary border-primary"
+                  className="w-full lg:w-[22.25rem] border p-2 bg-secondary border-primary"
                   placeholder="Confirm Password"
                   required
                 />
@@ -53,7 +53,7 @@ export default function Signup() {
                 <Link href="/login" className="max-lg:w-full text-left py-2 hover:underline hover:text-primary">
                   Have an account?
                 </Link>
-                <SubmitButton text="Login" />
+                <SubmitButton text="Sign Up" />
                 <div className="flex h-8 items-end space-x-1">
                 {message && (
                   <>
