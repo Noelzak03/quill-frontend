@@ -1,79 +1,28 @@
 //Login Page
-
-
-"use client"
+'use client'
 import Quill from '../components/Quill';
+import { SubmitButton } from '../components/Submit';
+import { useFormState } from 'react-dom'; 
 import Link from 'next/link';
+import { login } from '../actions';
 
-import { useState } from 'react';
 
 export default function Login() {
-  const [formData, setFormData] = useState({ username: '', password: '' });
-
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-
-    const uname = formData.username;
-    const pwd = formData.password;
-
-    console.log(formData);
-
-    if (pwd.length < 8) {
-      alert('Password must be at least 8 characters long.');
-      setFormData({ ...formData, password: '', confirmPassword: '' });
-      return;
-    }
-
-    
-    const apiUrl = process.env.NEXT_PUBLIC_URL+'user/token';
-    const requestOptions = {
-      mode: 'no-cors',
-      method: 'POST',
-      headers: {
-        'accept': 'application/json',
-        'Content-Type': 'application/x-www-form-urlencoded',
-        
-      },
-      body: formData
-    };
-
-    
-
-    try {
-      const response = await fetch(apiUrl, requestOptions);
-      if (response.ok) {
-        console.log('API response:', await response.json());
-      } else {
-        console.error(response.json);
-        alert("response status");
-      }
-    } catch (error) {
-      console.error('An error occurred while sending the API request:', error);
-    }
-
-    setFormData({ username: '', password: '' });
-  }
-
-  const handleInputChange = (event) => {
-    const { name, value } = event.target;
-    setFormData({ ...formData, [name]: value });
-  }
-
+  const [message, action] = useFormState(login, undefined);
   return (
     <div className="bg-primary p-10 min-h-screen">
       <div className="bg-secondary p-10">
         <Quill />
         <div>
-          <form onSubmit={handleSubmit} className="">
+          <form action={action} className="">
             <div className="p-16">
               <h2 className="text-4xl font-semibold mb-4 my-20">Welcome Back!</h2>
               <h3 className="mt-12">Enter credentials to login</h3>
               <div className="mb-4">
                 <input
                   type="text"
+                  id="username"
                   name="username"
-                  value={formData.username}
-                  onChange={handleInputChange}
                   className="w-full lg:w-[22rem] border p-2 bg-secondary border-primary"
                   placeholder="Username"
                   required
@@ -82,11 +31,11 @@ export default function Login() {
               <div className="my-6">
                 <input
                   type="password"
+                  id="password"
                   name="password"
-                  value={formData.password}
-                  onChange={handleInputChange}
                   className="w-full lg:w-[22rem] border p-2 bg-secondary border-primary"
                   placeholder="Password"
+                  minLength={8}
                   required
                 />
               </div>
@@ -97,12 +46,16 @@ export default function Login() {
                 >
                   New User? Sign Up
                 </Link>
-                <button
-                  type="submit"
-                  className="px-4 py-2 sm:font-medium text-white border-2 border-primary bg-secondary hover:bg-primary text-center"
-                >
-                  Login
-                </button>
+                <SubmitButton text="Login" />
+                <div className="flex h-8 items-end space-x-1">
+                {message && (
+                  <>
+                    <p aria-live="polite" className="text-sm text-red-500">
+                      Invalid credentials
+                    </p>
+                  </>
+                )}
+              </div>
               </div>
             </div>
           </form>
