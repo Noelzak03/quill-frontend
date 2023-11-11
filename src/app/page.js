@@ -1,6 +1,8 @@
+
 "use client";
 import React from "react";
 import Particle from "../components/Particle";
+
 function page() {
   return (
     <>
