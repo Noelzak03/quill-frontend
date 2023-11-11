@@ -27,6 +27,9 @@ export async function signup(prevState, formData) {
   const url = process.env.NEXT_PUBLIC_URL + "user/signup";
   const res = await fetch(url, {
     method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
     body: JSON.stringify({
       username: formData.get("username"),
       password: formData.get("password"),
