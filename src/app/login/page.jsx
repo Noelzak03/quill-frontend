@@ -16,29 +16,36 @@ export default function Login() {
     const uname = formData.username;
     const pwd = formData.password;
 
-    console.log({ uname, pwd });
+    console.log(formData);
 
     if (pwd.length < 8) {
       alert('Password must be at least 8 characters long.');
+      setFormData({ ...formData, password: '', confirmPassword: '' });
       return;
     }
 
-    const apiUrl = 'http://0.0.0.0:8000/token';
+    
+    const apiUrl = process.env.NEXT_PUBLIC_URL+'user/token';
     const requestOptions = {
       mode: 'no-cors',
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json',
+        'accept': 'application/json',
+        'Content-Type': 'application/x-www-form-urlencoded',
+        
       },
-      body: JSON.stringify(formData),
+      body: formData
     };
+
+    
 
     try {
       const response = await fetch(apiUrl, requestOptions);
       if (response.ok) {
         console.log('API response:', await response.json());
       } else {
-        console.error(response.message);
+        console.error(response.json);
+        alert("response status");
       }
     } catch (error) {
       console.error('An error occurred while sending the API request:', error);

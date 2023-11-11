@@ -16,7 +16,7 @@ export default function Signup() {
     const pwd = formData.password;
     const repwd = formData.confirmPassword;
 
-    console.log({ uname, pwd, repwd });
+    // console.log({ uname, pwd, repwd });
 
     if (pwd.length < 8) {
       alert('Password must be at least 8 characters long.');
@@ -30,17 +30,21 @@ export default function Signup() {
       return;
     }
 
-    console.log(JSON.stringify(formData.delete('confirmPassword')));
 
-    const apiUrl = 'http://0.0.0.0:8000/signup';
+    delete formData.confirmPassword;
+    console.log(JSON.stringify(formData));
+  
+
+    const apiUrl = process.env.NEXT_PUBLIC_URL+'user/signup';
 
     const requestOptions = {
       mode: 'no-cors',
       method: 'POST',
       headers: {
+        'accept': 'application/json',
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(formData),
+      body: JSON.stringify(formData)
     };
 
     try {
@@ -50,7 +54,7 @@ export default function Signup() {
         const data = await response.json();
         console.log('API response:', data);
       } else {
-        console.error(response.message);
+        console.error(response.json);
       }
     } catch (error) {
       console.error('error occurred', error);
