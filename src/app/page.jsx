@@ -3,7 +3,17 @@ import React from "react";
 import Particle from "../components/Particle";
 import Quill from "../components/Quill";
 import Homebutton from "../components/Homebutton";
+import check from "@/check";
 function page() {
+  let nextLink;
+  const cookie = check();
+  if (cookie.value) {
+    nextLink = "/works";
+  } else {
+    nextLink = "/login";
+  }
+  console.log(cookie);
+
   return (
     <div>
       <div className="z-0 ">
@@ -17,12 +27,19 @@ function page() {
           Join Quill, and embark on your creative voyage.
         </p>
         <div className="z-10 relative flex  gap-20 justify-end  items-center  ">
-          <Homebutton text="Create Room" href="/" />
-          <Homebutton text="Join Room" href="#" />
+          <Homebutton text="Create Room" href={nextLink} />
+          <Homebutton text="Join Room" href={nextLink} />
         </div>
       </div>
     </div>
   );
 }
-
 export default page;
+// const checkCookie = () => {
+//   let nextLink;
+//   const myCookieValue = document.cookie
+//     .split("; ")
+//     .find((row) => row.startsWith("username"));
+
+//   return myCookieValue;
+// };
