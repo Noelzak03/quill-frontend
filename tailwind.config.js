@@ -23,11 +23,7 @@ module.exports = {
       fontFamily: {
         lexend: ["Lexend", "sans-serif"],
       },
-      colors: {
-        primary: "#715AFF",
-        secondary: "#000000",
-        blue: "#127239",
-      },
+      
     },
   },
   plugins: [],
