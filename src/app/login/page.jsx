@@ -1,12 +1,12 @@
 //Login Page
-'use client';
-import Quill from '../components/Quill';
-import { SubmitButton } from '../components/Submit';
+"use client";
+import Quill from "../components/Quill";
+import { SubmitButton } from "../components/Submit";
 // import { useFormState } from "react-dom";
-import Link from 'next/link';
-import { login } from '../actions';
-import React, { useRef } from 'react';
-import { useState } from 'react';
+import Link from "next/link";
+import { login } from "../actions";
+import React, { useRef } from "react";
+import { useState } from "react";
 
 export default function Login() {
   //const [message, action] = useFormState(login, undefined);
@@ -20,7 +20,7 @@ export default function Login() {
 
     const formData = new FormData(ref.current);
 
-    message = await login('', formData);
+    message = await login("", formData);
     ref.current.reset();
     console.log(message);
   };
@@ -60,7 +60,10 @@ export default function Login() {
                 />
               </div>
               <div className="ml-0 flex mt-8 justify-center">
-                <Link href="/signup" className="w-full text-left py-2 hover:underline hover:text-primary">
+                <Link
+                  href="/signup"
+                  className="w-full text-left py-2 hover:underline hover:text-primary"
+                >
                   New User? Sign Up
                 </Link>
                 <SubmitButton text="Login" />
