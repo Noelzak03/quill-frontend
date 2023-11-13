@@ -1,18 +1,22 @@
 "use client";
 import React from "react";
-import Particle from "../components/Particle";
-import Quill from "../components/Quill";
-import Homebutton from "../components/Homebutton";
+import Particle from "src/app/components/Particle";
+import Quill from "src/app/components/Quill";
+import Homebutton from "src/app/components/Homebutton";
 import check from "@/check";
+import { useEffect } from "react";
 function page() {
-  let nextLink;
-  const cookie = check();
-  if (cookie.value) {
-    nextLink = "/works";
-  } else {
-    nextLink = "/login";
-  }
-  console.log(cookie);
+  let nextLink = "/login";
+  useEffect(() => {
+    // Check if the "myCookie" cookie exists
+    const myCookieValue = document.cookie
+      .split("; ")
+      .find((row) => row.startsWith("username"));
+
+    if (myCookieValue) {
+      nextLink = "/works";
+    }
+  }, []);
 
   return (
     <div>
@@ -35,11 +39,3 @@ function page() {
   );
 }
 export default page;
-// const checkCookie = () => {
-//   let nextLink;
-//   const myCookieValue = document.cookie
-//     .split("; ")
-//     .find((row) => row.startsWith("username"));
-
-//   return myCookieValue;
-// };

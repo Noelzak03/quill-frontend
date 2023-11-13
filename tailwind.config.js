@@ -14,7 +14,6 @@ module.exports = {
       xl: "1280px"
     },
 
-
     extend: {
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
@@ -22,13 +21,13 @@ module.exports = {
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))"
       },
       colors: {
-        primary: '#715AFF',
-        secondary: '#000000',
+        primary: "#715AFF",
+        secondary: "#000000"
       },
       fontFamily: {
-        lexend: ["Lexend", "sans-serif"],
-      },
-    },
+        lexend: ["Lexend", "sans-serif"]
+      }
+    }
   },
   plugins: []
 };
