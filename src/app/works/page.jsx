@@ -1,3 +1,11 @@
-export default function Works() {
-  return <h1>hiiii</h1>;
+import Canvas from "../components/Canvas";
+
+function Works() {
+  return (
+    <div className="">
+      <Canvas />
+    </div>
+  );
 }
+
+export default Works;
