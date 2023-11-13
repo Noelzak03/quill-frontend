@@ -1,7 +1,7 @@
 import Particles from "react-tsparticles";
 import { loadFull } from "tsparticles";
 
-export default function App() {
+export default function Particle() {
   const particlesInit = async (main) => {
     console.log(main);
 
@@ -19,7 +19,7 @@ export default function App() {
         options={{
           fullScreen: {
             enable: true,
-            zIndex: 1,
+            zIndex: 1
           },
           particles: {
             number: {
@@ -30,13 +30,13 @@ export default function App() {
               },
             },
             color: {
-              value: "#715aff",
+              value: "#715aff"
             },
             shape: {
               type: "dot",
               options: {
-                sides: 5,
-              },
+                sides: 5
+              }
             },
             opacity: {
               value: 0.8,
@@ -45,8 +45,8 @@ export default function App() {
                 enable: false,
                 speed: 1,
                 opacity_min: 0.1,
-                sync: false,
-              },
+                sync: false
+              }
             },
             size: {
               value: 4,
@@ -55,8 +55,8 @@ export default function App() {
                 enable: false,
                 speed: 40,
                 size_min: 0.1,
-                sync: false,
-              },
+                sync: false
+              }
             },
             rotate: {
               value: 0,
@@ -65,15 +65,15 @@ export default function App() {
               animation: {
                 enable: true,
                 speed: 5,
-                sync: false,
-              },
+                sync: false
+              }
             },
             line_linked: {
               enable: true,
               distance: 600,
               color: "#715aff",
               opacity: 0.4,
-              width: 2,
+              width: 2
             },
             move: {
               enable: true,
@@ -85,46 +85,46 @@ export default function App() {
               attract: {
                 enable: false,
                 rotateX: 600,
-                rotateY: 1200,
-              },
-            },
+                rotateY: 1200
+              }
+            }
           },
           interactivity: {
             events: {
               onhover: {
                 enable: true,
-                mode: ["grab"],
+                mode: ["grab"]
               },
               onclick: {
                 enable: true,
-                mode: "bubble",
+                mode: "bubble"
               },
-              resize: true,
+              resize: true
             },
             modes: {
               grab: {
                 distance: 400,
                 line_linked: {
-                  opacity: 1,
-                },
+                  opacity: 1
+                }
               },
               bubble: {
                 distance: 400,
                 size: 40,
                 duration: 2,
                 opacity: 8,
-                speed: 3,
+                speed: 3
               },
               repulse: {
-                distance: 200,
+                distance: 200
               },
               push: {
-                particles_nb: 4,
+                particles_nb: 4
               },
               remove: {
-                particles_nb: 2,
-              },
-            },
+                particles_nb: 2
+              }
+            }
           },
           retina_detect: true,
           background: {
@@ -132,8 +132,8 @@ export default function App() {
             image: "",
             position: "50% 50%",
             repeat: "no-repeat",
-            size: "cover",
-          },
+            size: "cover"
+          }
         }}
       />
     </div>
