@@ -6,15 +6,14 @@ const Canvas = () => {
   const canvasRef = useRef(null);
   let isDrawing = false;
   let lastPoint;
-  console.log(lastPoint);
 
   useEffect(() => {
     const canvas = canvasRef.current;
     const context = canvas.getContext("2d");
 
     const resize = () => {
-      canvas.width = window.innerWidth * 0.6;
-      canvas.height = window.innerHeight * 0.8;
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
       draw();
     };
 
@@ -23,6 +22,7 @@ const Canvas = () => {
     };
 
     window.onresize = resize;
+
     resize();
 
     canvas.addEventListener("mouseenter", () => {
@@ -77,8 +77,8 @@ const Canvas = () => {
   });
 
   return (
-    <div className=" flex items-center">
-      <canvas ref={canvasRef} className="border border-primary m-20"></canvas>
+    <div className="">
+      <canvas ref={canvasRef} className="border border-primary"></canvas>
     </div>
   );
 };

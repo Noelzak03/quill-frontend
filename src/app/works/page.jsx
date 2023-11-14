@@ -2,8 +2,10 @@ import Canvas from "../components/Canvas";
 
 function Works() {
   return (
-    <div className="">
-      <Canvas />
+    <div className="flex w-full h-full flex-shrink-1">
+      <div classname="">
+        <Canvas />
+      </div>
     </div>
   );
 }
