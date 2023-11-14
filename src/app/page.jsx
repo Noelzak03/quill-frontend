@@ -1,8 +1,8 @@
 "use client";
 import React from "react";
-import Particle from "src/app/components/Particle";
-import Quill from "src/app/components/Quill";
-import Homebutton from "src/app/components/Homebutton";
+import Particle from "src/app/components/Particlebg";
+import Quill from "src/app/components/Quilltext";
+import Homebutton from "src/app/components/Homebuttons";
 import check from "@/check";
 import { useEffect } from "react";
 function page() {
