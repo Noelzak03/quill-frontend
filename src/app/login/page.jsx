@@ -2,15 +2,13 @@
 "use client";
 import Quill from "../components/Quilltext";
 import { SubmitButton } from "../components/Submit";
-// import { useFormState } from "react-dom";
+
 import Link from "next/link";
 import { login } from "../actions";
 import React, { useRef } from "react";
 import { useState } from "react";
 
 export default function Login() {
-  //const [message, action] = useFormState(login, undefined);
-
   const ref = useRef(null);
 
   const action = async (event) => {
@@ -27,10 +25,6 @@ export default function Login() {
 
   return (
     <>
-      {/* <div className="bg-primary z-0 min-h-screen"></div> */}
-      {/* <div className="z-0">
-      <Particle/> 
-      </div> */}
       <div className="bg-transparent md:fixed z-10 p-10">
         <Quill />
         <div className="w-full">
@@ -67,15 +61,6 @@ export default function Login() {
                   New User? Sign Up
                 </Link>
                 <SubmitButton text="Login" />
-                {/* <div className="flex h-8 items-end space-x-1">
-                  {message && (
-                    <>
-                      <p aria-live="polite" className="text-sm text-red-500">
-                        Invalid credentials
-                      </p>
-                    </>
-                  )}
-                </div> */}
               </div>
             </div>
           </form>
