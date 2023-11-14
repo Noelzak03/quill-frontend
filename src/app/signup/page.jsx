@@ -4,15 +4,10 @@
 import Quill from "../components/Quill";
 import Link from "next/link";
 import { signup } from "../actions";
-// import { useFormState } from 'react-dom';
 import { SubmitButton } from "../components/Submit";
 import { useRef } from "react";
 
-// import { useState } from 'react';
-
 export default function Signup() {
-  //   const [message, action] = useFormState(signup, undefined);
-
   const ref = useRef(null);
 
   const action = async (event) => {
@@ -37,7 +32,6 @@ export default function Signup() {
   };
 
   return (
-    // <div className="bg-primary z-0 min-h-screen">
     <div className="bg-transparent md:fixed z-10 p-10">
       <Quill />
       <div className="w-full">
@@ -81,20 +75,10 @@ export default function Signup() {
                 Have an account?
               </Link>
               <SubmitButton text="Register" />
-              {/* <div className="flex h-8 items-end space-x-1">
-                {message && (
-                  <>
-                    <p aria-live="polite" className="text-sm text-red-500">
-                      Invalid credentials
-                    </p>
-                  </>
-                )}
-              </div> */}
             </div>
           </div>
         </form>
       </div>
     </div>
-    // </div>
   );
 }
