@@ -1,7 +1,7 @@
 //Sign Up Page
 
 "use client";
-import Quill from "../components/Quill";
+import Quill from "../components/Quilltext";
 import Link from "next/link";
 import { signup } from "../actions";
 import { SubmitButton } from "../components/Submit";

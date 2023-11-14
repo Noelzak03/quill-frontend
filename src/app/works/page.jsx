@@ -1,11 +1,15 @@
-import Canvas from "../components/Canvas";
 
-function Works() {
+// import { NextRequest, NextResponse } from "next/server";
+import { cookies } from "next/headers";
+
+export default async function Works() {
+  "use server";
+  const cookie = cookies().get("username");
+
+  ("use client");
   return (
-    <div className="flex w-full h-full flex-shrink-1">
-      <div classname="">
-        <Canvas />
-      </div>
+    <div>
+      <p>hi {cookie.value}</p>
     </div>
   );
 }

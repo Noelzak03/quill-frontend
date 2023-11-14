@@ -13,8 +13,6 @@ export default function Particle() {
 
   return (
     <div className="App">
-      <h1>Hello Coders!</h1>
-
       <Particles
         id="tsparticles"
         init={particlesInit}
@@ -25,10 +23,10 @@ export default function Particle() {
           },
           particles: {
             number: {
-              value: 30,
+              value: 10,
               density: {
-                enable: false,
-                value_area: 800
+                enable: true,
+                value_area: 700
               }
             },
             color: {
