@@ -16,7 +16,7 @@ export async function login(prevState, formData) {
   console.log(data);
   if (res.status == 200) {
     cookies().set("username", data.username, { maxAge: 60 * 60 * 24 });
-    cookies().set("authorization", `Bearer ${data.token.access_token}`, {
+    cookies().set("authorization", `Bearer ${data.access_token}`, {
       maxAge: 60 * 60 * 24
     }); // cookie lasts for a day
     redirect("/works");
@@ -42,7 +42,7 @@ export async function signup(prevState, formData) {
   console.log(data);
   if (res.status == 200) {
     cookies().set("username", data.username, { maxAge: 60 * 60 * 24 });
-    cookies().set("authorization", `Bearer ${data.token.access_token}`, {
+    cookies().set("authorization", `Bearer ${data.access_token}`, {
       maxAge: 60 * 60 * 24
     }); // cookie lasts for a day
     redirect("/works");
