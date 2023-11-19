@@ -50,3 +50,22 @@ export async function signup(prevState, formData) {
     return { message: data.message };
   }
 }
+
+export async function room() {
+  "use server";
+  const url = process.env.NEXT_PUBLIC_API_URL + "room";
+  const token = cookies().get("authorization");
+  const res = await fetch(url, {
+    method: "POST",
+    headers: {
+      Authorization: token.value
+    }
+  });
+  const data = await res.json();
+
+  if (res.status == 200) {
+    return data;
+  } else {
+    return { message: data.message };
+  }
+}
