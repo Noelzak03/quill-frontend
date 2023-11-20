@@ -76,5 +76,8 @@ export async function room() {
 
 export async function gettoken() {
   const token = cookies().get("authorization");
+  if (!token) {
+    redirect("/login");
+  }
   return token.value;
 }

@@ -1,28 +1,40 @@
 "use client";
 import React, { useEffect, useState } from "react";
 
-export default function Chat() {
+export default function Chat({ chatMessages, sendJsonMessage }) {
   const [formValue, setFormValue] = useState("");
-  const [socket, setSocket] = useState(null); //socket holds the current instance of the websocket connection
 
   //send user message to the server
   const sendMessage = (e) => {
     e.preventDefault();
+    sendJsonMessage(formValue);
+    setFormValue("");
+    // const currentSocket = getWebSocketInstance();
+    // if (currentSocket && currentSocket.readyState === WebSocket.OPEN) {
+    //   currentSocket.send(formValue);
 
-    const currentSocket = getWebSocketInstance();
-    if (currentSocket && currentSocket.readyState === WebSocket.OPEN) {
-      currentSocket.sendJsonMessage(formValue);
-      setFormValue("");
-    } else {
-      console.error("WebSocket connection not open");
-    }
+    // } else {
+    //   console.error("WebSocket connection not open");
+    // }
   };
   return (
     <div className="h-[42rem] w-[28rem] border-primary  border-4 bg- items-self-center flex flex-col justify-evenly">
       <div className=" text-left text-black  h-1/6 w-full p-8 text-5xl  bg-primary font-lexend font-bold">
         <p>Chat</p>
       </div>
-      <div className="h-2/3 w-full bg-slate-500 "></div>
+      <div className="h-2/3 w-full bg-slate-500 ">
+      
+        const [playerName,playerMessage,correct] = chatMessages.map( msg => {
+          playerName = msg.username;
+          playerMessage = msg.message;
+          correct = msg.has_guessed;
+          <div className="text-left text-black  h-1/6 w-full p-8 text-5xl  bg-primary font-lexend font-bold">
+            <p>
+              {playerName} : {playerMessage}
+            </p>
+          </div>
+        });
+      </div>
       <form class="w-full h-1/6 px-2" onSubmit={sendMessage}>
         <div class="flex items-stretch py-4 m-2 mt-4 border-4 border-primary ">
           <input
