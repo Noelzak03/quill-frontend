@@ -58,6 +58,7 @@ export async function room() {
   if (!token) {
     redirect("/login");
   }
+  console.log(token.value);
   const res = await fetch(url, {
     method: "POST",
     headers: {

@@ -17,23 +17,20 @@ export default function Chat({ chatMessages, sendJsonMessage }) {
     //   console.error("WebSocket connection not open");
     // }
   };
+  const chatElement = chatMessages.map((msg) => {
+    <p>
+      {msg.username} : {msg.message}
+    </p>;
+  });
   return (
     <div className="h-[42rem] w-[28rem] border-primary  border-4 bg- items-self-center flex flex-col justify-evenly">
       <div className=" text-left text-black  h-1/6 w-full p-8 text-5xl  bg-primary font-lexend font-bold">
         <p>Chat</p>
       </div>
       <div className="h-2/3 w-full bg-slate-500 ">
-      
-        const [playerName,playerMessage,correct] = chatMessages.map( msg => {
-          playerName = msg.username;
-          playerMessage = msg.message;
-          correct = msg.has_guessed;
-          <div className="text-left text-black  h-1/6 w-full p-8 text-5xl  bg-primary font-lexend font-bold">
-            <p>
-              {playerName} : {playerMessage}
-            </p>
-          </div>
-        });
+        <div className="text-left text-black  h-1/6 w-full p-8 text-5xl  bg-primary font-lexend font-bold">
+          {chatElement}
+        </div>
       </div>
       <form class="w-full h-1/6 px-2" onSubmit={sendMessage}>
         <div class="flex items-stretch py-4 m-2 mt-4 border-4 border-primary ">
