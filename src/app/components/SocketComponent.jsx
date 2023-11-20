@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+// import React, { useEffect } from "react";
 import { usePathname } from "next/navigation";
 import Chat from "./Chatbox";
 import useWebSocket from "react-use-websocket";
@@ -23,6 +23,7 @@ function removeItemOnce(arr, value) {
 
 const WebSocketComponent = ({ token }) => {
   const [users, setUsers] = useState([]);
+  const [chatmessages, setChatmessages] = useState([]);
   const pathname = usePathname();
 
   const serverUrl = "ws://" + process.env.NEXT_PUBLIC_WEBSOCKET_URL + pathname;
@@ -54,8 +55,10 @@ const WebSocketComponent = ({ token }) => {
           case "game_state_change":
             break;
           case "message":
+            setChatmessages([...chatmessages, message.data]);
             break;
           case "correct_guess":
+            setChatmessages([...chatmessages, message.data]);
             break;
           case "drawing":
             break;
@@ -69,20 +72,23 @@ const WebSocketComponent = ({ token }) => {
       }
     }
   );
+  // useEffect(() => {
+  //   // console.log(chatmessages);
+  // }, [chatmessages]);
 
   return (
     <div className="flex flex-col space-y-8">
       <div className="mb-8">
         <h1 className="text-3xl">Lobby</h1>
       </div>
-      <div className="flex-row">
-        <div>
+      <div className="flex flex-row">
+        <div className=" justify-start flex-grow">
           {users.map((person, index) => (
             <Player key={index} name={person.username} />
           ))}
         </div>
-        <div>
-          <Chat chatMessages={[]} sendJsonMessage />
+        <div className=" justify-end">
+          <Chat chatMessages={chatmessages} sendJsonMessage={sendJsonMessage} />
         </div>
       </div>
     </div>
