@@ -11,7 +11,7 @@ export default function Chat() {
 
     const currentSocket = getWebSocketInstance();
     if (currentSocket && currentSocket.readyState === WebSocket.OPEN) {
-      currentSocket.send(formValue);
+      currentSocket.sendJsonMessage(formValue);
       setFormValue("");
     } else {
       console.error("WebSocket connection not open");
@@ -42,8 +42,4 @@ export default function Chat() {
       </form>
     </div>
   );
-}
-
-function chatRoomMessage(messageObj){
-  for(const [user,])
 }
