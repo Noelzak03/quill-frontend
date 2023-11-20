@@ -3,18 +3,21 @@
 Embark on your creative journey with Quill <br/>
 Quill is a multiplayer drawing website, featuring a live canvas .
 
-## Technology Stack: 
-### Frontend 
+## Technology Stack:
+
+### Frontend
+
 - React
 - Tailwind CSS
 - Next.js
-  
+
 ### Backend (https://github.com/anand2312/quill-server)
+
 - FastApi
 - PosgreSql
 - Redis
 - SQLAlchemy
-  
+
 ## Developing
 
 Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
