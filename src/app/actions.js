@@ -64,8 +64,14 @@ export async function room() {
   const data = await res.json();
 
   if (res.status == 200) {
+    // cookies().set("roomid", data.room_id, { maxAge: 60 * 60 * 24 });
     return data;
   } else {
     return { message: data.message };
   }
+}
+
+export async function gettoken() {
+  const token = cookies().get("authorization");
+  return token;
 }
