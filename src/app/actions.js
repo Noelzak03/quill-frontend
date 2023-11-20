@@ -55,6 +55,9 @@ export async function room() {
   "use server";
   const url = process.env.NEXT_PUBLIC_API_URL + "room";
   const token = cookies().get("authorization");
+  if (!token) {
+    redirect("/login");
+  }
   const res = await fetch(url, {
     method: "POST",
     headers: {
