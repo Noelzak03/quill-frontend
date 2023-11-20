@@ -19,6 +19,37 @@ const WebSocketComponent = ({ token }) => {
         },
         onClose: () => {
           console.log("socket connection closed");
+        },
+        onMessage: (event) => {
+          const message = JSON.parse(event.data);
+          // console.log(message);
+          console.log(message.data.status);
+
+          switch (message.event_type) {
+            case "connect":
+              console.log("hello");
+              break;
+            case "member_join":
+              break;
+            case "member_leave":
+              break;
+            case "owner_change":
+              break;
+            case "game_state_change":
+              break;
+            case "message":
+              break;
+            case "correct_guess":
+              break;
+            case "drawing":
+              break;
+            case "turn_start":
+              break;
+            case "turn_end":
+              break;
+            default:
+              console.log("Unhandled event type:", message.type);
+          }
         }
       }
     );
@@ -44,32 +75,6 @@ const WebSocketComponent = ({ token }) => {
   // socket.addEventListener("message", (event) => {
   //   console.log("WebSocket Message Received", event.data);
 
-  //   const message = JSON.parse(event.data);
-
-  //   switch (message.type) {
-  //     case "CONNECT":
-  //       break;
-  //     case "MEMBER_JOIN":
-  //       break;
-  //     case "MEMBER_LEAVE":
-  //       break;
-  //     case "OWNER_CHANGE":
-  //       break;
-  //     case "GAME_STATE_CHANGE":
-  //       break;
-  //     case "MESSAGE":
-  //       break;
-  //     case "CORRECT_GUESS":
-  //       break;
-  //     case "DRAWING":
-  //       break;
-  //     case "TURN_START":
-  //       break;
-  //     case "TURN_END":
-  //       break;
-  //     default:
-  //       console.log("Unhandled event type:", message.type);
-  //   }
   // });
 
   // socket.addEventListener("close", (event) => {
