@@ -3,7 +3,6 @@ import React from "react";
 import { usePathname } from "next/navigation";
 import useWebSocket from "react-use-websocket";
 import { useState } from "react";
-import { useEffect } from "react";
 import Player from "./lobbyplayer";
 
 function removeItemOnce(arr, value) {
@@ -47,7 +46,6 @@ const WebSocketComponent = ({ token }) => {
             setUsers([...users, message.data]);
             break;
           case "member_leave":
-            // console.log(message.data);
             setUsers(removeItemOnce(users, message.data));
             break;
           case "owner_change":
@@ -70,9 +68,6 @@ const WebSocketComponent = ({ token }) => {
       }
     }
   );
-  useEffect(() => {
-    console.log("Updated users:", users);
-  }, [users]);
 
   return (
     <div className="flex flex-col space-y-8">
@@ -88,30 +83,6 @@ const WebSocketComponent = ({ token }) => {
       </div>
     </div>
   );
-
-  // return (
-  //   <div>
-  //     {users.map((person, index) => (
-  //       <Player key={index} name={person.username} />
-  //     ))}
-  //   </div>
-  // );
 };
 
 export default WebSocketComponent;
-
-//   return (
-//     <div className="flex flex-col space-y-8">
-//       <div className="mb-8">
-//         <h1 className="text-3xl">Lobby</h1>
-//       </div>
-//       <div className="">
-//         <div>
-//         {users.map((person, index) => (
-//           <Player key={index} name={person.username} />
-//         ))}
-//       </div>
-//       </div>
-//     </div>
-//   );
-// }
