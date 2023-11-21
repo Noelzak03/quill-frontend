@@ -3,20 +3,27 @@ import React from "react";
 import Particle from "src/app/components/Particlebg";
 import Quill from "src/app/components/Quilltext";
 import Homebutton from "src/app/components/Homebuttons";
-import check from "@/check";
 import { useEffect } from "react";
+import { gettoken } from "./actions";
+import { useState } from "react";
 function page() {
-  let nextLink = "/login";
-  useEffect(() => {
-    // Check if the "myCookie" cookie exists
-    const myCookieValue = document.cookie
-      .split("; ")
-      .find((row) => row.startsWith("username"));
+  const [token, setToken] = useState(null);
+  let joinLink = "/login";
+  let createLink = "/login";
 
-    if (myCookieValue) {
-      nextLink = "/works";
-    }
+  useEffect(() => {
+    const recievedToken = async () => {
+      const recievedToken = await gettoken();
+      setToken(recievedToken);
+    };
+
+    recievedToken();
   }, []);
+
+  if (token) {
+    createLink = "/room";
+    joinLink = "/joinroom";
+  }
 
   return (
     <div>
@@ -31,8 +38,8 @@ function page() {
           Join Quill, and embark on your creative voyage.
         </p>
         <div className="z-10 relative flex  gap-20 justify-end  items-center  ">
-          <Homebutton text="Create Room" href={nextLink} />
-          <Homebutton text="Join Room" href={nextLink} />
+          <Homebutton text="Create Room" href={createLink} />
+          <Homebutton text="Join Room" href={joinLink} />
         </div>
       </div>
     </div>
