@@ -4,7 +4,7 @@
 import Quill from "../components/Quilltext";
 import Link from "next/link";
 import { signup } from "../actions";
-import { SubmitButton } from "../components/Submit";
+import { SubmitButton } from "../components/Formsubmit";
 import { useRef } from "react";
 
 export default function Signup() {

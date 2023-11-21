@@ -1,7 +1,7 @@
 //Login Page
 "use client";
 import Quill from "../components/Quilltext";
-import { SubmitButton } from "../components/Submit";
+import { SubmitButton } from "../components/Formsubmit";
 
 import Link from "next/link";
 import { login } from "../actions";
