@@ -5,6 +5,8 @@ import Chat from "./Chatbox";
 import useWebSocket from "react-use-websocket";
 import { useState } from "react";
 import Player from "./lobbyplayer";
+import Quill from "./Quilltext";
+import { Excalidraw } from "@excalidraw/excalidraw";
 
 function removeItemOnce(arr, value) {
   var index = -1;
@@ -24,6 +26,7 @@ function removeItemOnce(arr, value) {
 const WebSocketComponent = ({ token }) => {
   const [users, setUsers] = useState([]);
   const [chatmessages, setChatmessages] = useState([]);
+  const [gameStarted, setGameStarted] = useState(false);
   const pathname = usePathname();
 
   const serverUrl = "ws://" + process.env.NEXT_PUBLIC_WEBSOCKET_URL + pathname;
@@ -53,6 +56,7 @@ const WebSocketComponent = ({ token }) => {
           case "owner_change":
             break;
           case "game_state_change":
+            // setGameStarted(true);
             break;
           case "message":
             setChatmessages([...chatmessages, message.data]);
@@ -72,22 +76,50 @@ const WebSocketComponent = ({ token }) => {
       }
     }
   );
+  const startGame = () => {
+    if (readyState === WebSocket.OPEN) {
+      // sendJsonMessage({ event_type: "start", data: { message: formValue } });
+      // edit the above to send start event
+      setGameStarted(true);
+    }
+  };
   // useEffect(() => {
   //   // console.log(chatmessages);
   // }, [chatmessages]);
 
   return (
-    <div className="flex flex-col space-y-8">
-      <div className="mb-8">
-        <h1 className="text-3xl">Lobby</h1>
+    <div className="flex flex-col">
+      <div className="my-8">
+        <Quill />
       </div>
       <div className="flex flex-row">
-        <div className=" justify-start flex-grow">
-          {users.map((person, index) => (
-            <Player key={index} name={person.username} />
-          ))}
+        <div
+          className={`flex flex-col justify-start ${
+            !gameStarted ? "flex-grow" : ""
+          }`}
+        >
+          <div className="flex-grow">
+            {users.map((person, index) => (
+              <Player key={index} name={person.username} />
+            ))}
+          </div>
+          <div>
+            {!gameStarted && (
+              <button
+                className="p-2 m-2 sm:font-medium text-white border-2 border-primary bg-secondary hover:bg-primary text-center"
+                onClick={startGame}
+              >
+                Start Game
+              </button>
+            )}
+          </div>
         </div>
-        <div className=" justify-end">
+        {gameStarted && (
+          <div className="flex-grow">
+            <Excalidraw />
+          </div>
+        )}
+        <div className="justify-end">
           <Chat chatMessages={chatmessages} sendJsonMessage={sendJsonMessage} />
         </div>
       </div>
