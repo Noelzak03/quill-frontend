@@ -6,8 +6,9 @@ import useWebSocket from "react-use-websocket";
 import { useState } from "react";
 import Player from "./lobbyplayer";
 import Quill from "./Quilltext";
-// import { Excalidraw } from "@excalidraw/excalidraw";
+import { SyncState } from "@/app/collab";
 import dynamic from "next/dynamic";
+
 const Excalidraw = dynamic(
   async () => (await import("@excalidraw/excalidraw")).Excalidraw,
   {
@@ -35,15 +36,24 @@ const WebSocketComponent = ({ token, username }) => {
   const [chatmessages, setChatmessages] = useState([]);
   const [gameStarted, setGameStarted] = useState("lobby");
   const [owner, setOwner] = useState(false);
-  const [isDrawing, setIsDrawing] = useState(true);  // true when it is current user's turn to draw
+  const [isDrawing, setIsDrawing] = useState(true); // true when it is current user's turn to draw
   const [excalidrawAPI, setExcalidrawAPI] = useState(null);
+  const [syncState, setSyncState] = useState(null);
   const pathname = usePathname();
 
   const excalidrawUIOptions = {
     canvasActions: {
       changeViewBackgroundColor: false,
       loadScene: false,
-      saveToActiveFile: false,
+      saveToActiveFile: false
+    }
+  };
+
+  function onCanvasChange(elements, state, files) {
+    if (syncState) {
+      syncState.send(elements);
+    } else {
+      console.log("syncstate is still null");
     }
   }
 
@@ -54,13 +64,15 @@ const WebSocketComponent = ({ token, username }) => {
       onOpen: () => {
         console.log("socket connection opened");
         sendJsonMessage({ Authorization: token });
+        setSyncState(new SyncState(sendJsonMessage));
       },
       onClose: () => {
+        setSyncState(null);
         console.log("socket connection closed");
       },
       onMessage: (event) => {
         const message = JSON.parse(event.data);
-
+        console.log(message);
         switch (message.event_type) {
           case "connect":
             setUsers(message.data.users);
@@ -84,6 +96,14 @@ const WebSocketComponent = ({ token, username }) => {
             setChatmessages([...chatmessages, message.data]);
             break;
           case "drawing":
+            console.log('drawing event received');
+            console.log(message.data);
+            if (excalidrawAPI && message.data.user.username !== username) {
+              excalidrawAPI.updateScene(message.data.elements);
+            }
+            if (!excalidrawAPI) {
+              console.log('could not render as excalidrawAPI is null');
+            }
             break;
           case "turn_start":
             break;
@@ -152,10 +172,11 @@ const WebSocketComponent = ({ token, username }) => {
             </div>
           </div>
           <div className="flex-grow">
-            <Excalidraw 
+            <Excalidraw
               theme="dark"
               viewModeEnabled={!isDrawing}
               isCollaborating={true}
+              onChange={onCanvasChange}
               excalidrawAPI={(api) => setExcalidrawAPI(api)}
               UIOptions={excalidrawUIOptions}
             />
