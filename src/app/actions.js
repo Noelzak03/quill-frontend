@@ -9,11 +9,11 @@ export async function login(prevState, formData) {
 
   const res = await fetch(url, {
     method: "POST",
-    body: formData
+    body: formData,
+    cache: 'no-store'
   });
 
   const data = await res.json();
-  console.log(data);
   if (res.status == 200) {
     cookies().set("username", data.username, { maxAge: 60 * 60 * 24 });
     cookies().set("authorization", `Bearer ${data.access_token}`, {
@@ -36,7 +36,8 @@ export async function signup(prevState, formData) {
     body: JSON.stringify({
       username: formData.get("username"),
       password: formData.get("password")
-    })
+    }),
+    cache: 'no-store'
   });
   const data = await res.json();
   console.log(data);
@@ -63,7 +64,8 @@ export async function room() {
     method: "POST",
     headers: {
       Authorization: token.value
-    }
+    },
+    cache: 'no-store'
   });
   const data = await res.json();
 
