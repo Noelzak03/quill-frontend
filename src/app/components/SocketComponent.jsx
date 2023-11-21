@@ -47,7 +47,7 @@ const WebSocketComponent = ({ token, username }) => {
     }
   }
 
-  const serverUrl = "ws://" + process.env.NEXT_PUBLIC_WEBSOCKET_URL + pathname;
+  const serverUrl = process.env.NEXT_PUBLIC_WEBSOCKET_URL + pathname;
   const { sendJsonMessage, lastJsonMessage, readyState } = useWebSocket(
     serverUrl,
     {
