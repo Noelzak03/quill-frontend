@@ -6,7 +6,14 @@ import useWebSocket from "react-use-websocket";
 import { useState } from "react";
 import Player from "./lobbyplayer";
 import Quill from "./Quilltext";
-import { Excalidraw } from "@excalidraw/excalidraw";
+// import { Excalidraw } from "@excalidraw/excalidraw";
+import dynamic from "next/dynamic";
+const Excalidraw = dynamic(
+  async () => (await import("@excalidraw/excalidraw")).Excalidraw,
+  {
+    ssr: false
+  }
+);
 
 function removeItemOnce(arr, value) {
   var index = -1;
