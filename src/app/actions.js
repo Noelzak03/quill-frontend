@@ -82,3 +82,11 @@ export async function gettoken() {
   }
   return token.value;
 }
+
+export async function getusername() {
+  const token = cookies().get("username");
+  if (!token) {
+    redirect("/login");
+  }
+  return token.value;
+}
