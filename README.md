@@ -11,7 +11,7 @@ Quill is a multiplayer drawing website, featuring a live canvas .
 - Tailwind CSS
 - Next.js
 
-### Backend (https://github.com/anand2312/quill-server)
+### [Backend](https://github.com/anand2312/quill-server)
 
 - FastApi
 - PosgreSql
