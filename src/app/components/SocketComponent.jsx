@@ -35,7 +35,17 @@ const WebSocketComponent = ({ token, username }) => {
   const [chatmessages, setChatmessages] = useState([]);
   const [gameStarted, setGameStarted] = useState("lobby");
   const [owner, setOwner] = useState(false);
+  const [isDrawing, setIsDrawing] = useState(true);  // true when it is current user's turn to draw
+  const [excalidrawAPI, setExcalidrawAPI] = useState(null);
   const pathname = usePathname();
+
+  const excalidrawUIOptions = {
+    canvasActions: {
+      changeViewBackgroundColor: false,
+      loadScene: false,
+      saveToActiveFile: false,
+    }
+  }
 
   const serverUrl = "ws://" + process.env.NEXT_PUBLIC_WEBSOCKET_URL + pathname;
   const { sendJsonMessage, lastJsonMessage, readyState } = useWebSocket(
@@ -142,7 +152,13 @@ const WebSocketComponent = ({ token, username }) => {
             </div>
           </div>
           <div className="flex-grow">
-            <Excalidraw />
+            <Excalidraw 
+              theme="dark"
+              viewModeEnabled={!isDrawing}
+              isCollaborating={true}
+              excalidrawAPI={(api) => setExcalidrawAPI(api)}
+              UIOptions={excalidrawUIOptions}
+            />
           </div>
           <div className="justify-end">
             <Chat
