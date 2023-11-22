@@ -79,16 +79,10 @@ export async function room() {
 
 export async function gettoken() {
   const token = cookies().get("authorization");
-  if (!token) {
-    redirect("/login");
-  }
-  return token.value;
+  return token;
 }
 
 export async function getusername() {
   const token = cookies().get("username");
-  if (!token) {
-    redirect("/login");
-  }
-  return token.value;
+  return token;
 }

@@ -2,7 +2,7 @@
 "use server";
 import { gettoken, getusername } from "@/app/actions";
 import WebSocketComponent from "@/app/components/SocketComponent";
-import { redirect } from "next/dist/server/api-utils";
+import { redirect } from "next/navigation";
 
 export default async function Page() {
   const token = await gettoken();
@@ -13,7 +13,7 @@ export default async function Page() {
 
   return (
     <>
-      <WebSocketComponent token={token} username={username} />
+      <WebSocketComponent token={token.value} username={username.value} />
     </>
   );
 }
