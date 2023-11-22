@@ -36,7 +36,7 @@ const WebSocketComponent = ({ token, username }) => {
   const [chatmessages, setChatmessages] = useState([]);
   const [gameStarted, setGameStarted] = useState("lobby");
   const [owner, setOwner] = useState(false);
-  const [isDrawing, setIsDrawing] = useState(true); // true when it is current user's turn to draw
+  const [isDrawing, setIsDrawing] = useState(false); // true when it is current user's turn to draw
   const [excalidrawAPI, setExcalidrawAPI] = useState(null);
   const [syncState, setSyncState] = useState(null);
   const pathname = usePathname();
@@ -51,7 +51,9 @@ const WebSocketComponent = ({ token, username }) => {
 
   function onCanvasChange(elements, state, files) {
     if (syncState) {
-      syncState.send(elements);
+      if (isDrawing) {
+        syncState.send(elements);
+      }
     } else {
       console.log("syncstate is still null");
     }
@@ -99,18 +101,31 @@ const WebSocketComponent = ({ token, username }) => {
             console.log('drawing event received');
             console.log(message.data);
             if (excalidrawAPI && message.data.user.username !== username) {
-              excalidrawAPI.updateScene(message.data.elements);
+              console.log("updating scene");
+              excalidrawAPI.updateScene({
+                elements: message.data.elements,
+                commitToHistory: false
+              });
+              // excalidrawAPI.scrollToContent(message.data.elements);
+            } else {
+              console.log('cant/dont need to update');
             }
             if (!excalidrawAPI) {
               console.log('could not render as excalidrawAPI is null');
             }
             break;
           case "turn_start":
+            console.log('recevied turn start');
+            console.log(message.data.user.username === username);
+            setIsDrawing(message.data.user.username === username);
             break;
           case "turn_end":
+            console.log('received turn_end');
+            setIsDrawing(false);
+            excalidrawAPI.
             break;
           default:
-            console.log("Unhandled event type:", message.type);
+            console.log("Unhandled event type:", message.event_type);
         }
       }
     }
@@ -172,14 +187,23 @@ const WebSocketComponent = ({ token, username }) => {
             </div>
           </div>
           <div className="flex-grow">
+            {isDrawing ? 
             <Excalidraw
-              theme="dark"
-              viewModeEnabled={!isDrawing}
+              theme="light"
+              viewModeEnabled={false}
               isCollaborating={true}
               onChange={onCanvasChange}
               excalidrawAPI={(api) => setExcalidrawAPI(api)}
               UIOptions={excalidrawUIOptions}
-            />
+            /> : 
+            <Excalidraw
+              theme="light"
+              viewModeEnabled={true}
+              isCollaborating={true}
+              onChange={onCanvasChange}
+              excalidrawAPI={(api) => setExcalidrawAPI(api)}
+              UIOptions={excalidrawUIOptions}
+            /> }
           </div>
           <div className="justify-end">
             <Chat
