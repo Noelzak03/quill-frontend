@@ -7,6 +7,7 @@ import { useState } from "react";
 import Player from "./lobbyplayer";
 import Quill from "./Quilltext";
 // import { Excalidraw } from "@excalidraw/excalidraw";
+import Link from "next/link";
 import dynamic from "next/dynamic";
 const Excalidraw = dynamic(
   async () => (await import("@excalidraw/excalidraw")).Excalidraw,
@@ -35,17 +36,18 @@ const WebSocketComponent = ({ token, username }) => {
   const [chatmessages, setChatmessages] = useState([]);
   const [gameStarted, setGameStarted] = useState("lobby");
   const [owner, setOwner] = useState(false);
-  const [isDrawing, setIsDrawing] = useState(true);  // true when it is current user's turn to draw
+  const [isDrawing, setIsDrawing] = useState(true); // true when it is current user's turn to draw
   const [excalidrawAPI, setExcalidrawAPI] = useState(null);
+  const [error, setError] = useState(null);
   const pathname = usePathname();
 
   const excalidrawUIOptions = {
     canvasActions: {
       changeViewBackgroundColor: false,
       loadScene: false,
-      saveToActiveFile: false,
+      saveToActiveFile: false
     }
-  }
+  };
 
   const serverUrl = process.env.NEXT_PUBLIC_WEBSOCKET_URL + pathname;
   const { sendJsonMessage, lastJsonMessage, readyState } = useWebSocket(
@@ -57,6 +59,11 @@ const WebSocketComponent = ({ token, username }) => {
       },
       onClose: () => {
         console.log("socket connection closed");
+      },
+      onError: (error) => {
+        console.log(error);
+        console.error("WebSocket error:", error);
+        setError("Failed to connect. Please try again");
       },
       onMessage: (event) => {
         const message = JSON.parse(event.data);
@@ -104,7 +111,20 @@ const WebSocketComponent = ({ token, username }) => {
     console.log(gameStarted);
   }, [gameStarted]);
 
-  if (gameStarted === "lobby") {
+  if (error) {
+    return (
+      <div className="flex flex-col items-center justify-center h-screen">
+        <div>
+          <Link
+            href="/joinroom"
+            className="p-2 text-sm sm:text-lg text-white border-2 border-primary bg-secondary hover:bg-primary hover:text-secondary text-center"
+          >
+            {error}
+          </Link>
+        </div>
+      </div>
+    );
+  } else if (gameStarted === "lobby") {
     return (
       <div className="flex flex-col">
         <div className="my-8">
@@ -152,7 +172,7 @@ const WebSocketComponent = ({ token, username }) => {
             </div>
           </div>
           <div className="flex-grow">
-            <Excalidraw 
+            <Excalidraw
               theme="dark"
               viewModeEnabled={!isDrawing}
               isCollaborating={true}
