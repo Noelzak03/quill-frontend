@@ -122,7 +122,7 @@ const WebSocketComponent = ({ token, username }) => {
           case "turn_end":
             console.log('received turn_end');
             setIsDrawing(false);
-            excalidrawAPI.
+            excalidrawAPI.resetScene();
             break;
           default:
             console.log("Unhandled event type:", message.event_type);
