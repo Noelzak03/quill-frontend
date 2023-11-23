@@ -99,7 +99,11 @@ export class SyncState {
    */
   updateViewerState(elements) {
     elements.forEach((element) => {
-      this.displayElements.set(element.id, element);
+      if (!element.isDeleted) {
+        this.displayElements.set(element.id, element);
+      } else {
+        this.displayElements.delete(element.id);
+      }
     })
   }
 

@@ -96,13 +96,12 @@ const WebSocketComponent = ({ token, username }) => {
             setChatmessages([...chatmessages, message.data]);
             break;
           case "drawing":
-            console.log(message.data);
             if (excalidrawAPI && message.data.user.username !== username) {
+              syncState.updateViewerState(message.data.elements);
               excalidrawAPI.updateScene({
-                elements: [...message.data.elements, ...syncState.getViewerBoardElements()],
+                elements: [...syncState.getViewerBoardElements()],
                 commitToHistory: false
               });
-              syncState.updateViewerState(message.data.elements);
               // excalidrawAPI.scrollToContent(message.data.elements);
             } else {
               console.log('cant/dont need to update');
