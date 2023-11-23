@@ -24,7 +24,7 @@ export default function Login() {
 
   return (
     <>
-      <div className="bg-transparent md:fixed z-10 p-10">
+      <div className="bg-transparent md:fixed z-10 p-2 sm:p-10">
         <Quill />
         <div className="w-full">
           <form ref={ref} onSubmit={action} className="">

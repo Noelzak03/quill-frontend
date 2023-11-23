@@ -30,14 +30,14 @@ function page() {
       <div className="z-0 ">
         <Particle />
       </div>
-      <div className="z-10 absolute  bg-transparent p-10 ">
+      <div className="z-10 absolute  bg-transparent p-2 sm:p-10 ">
         <Quill />
       </div>
       <div className="z-10 relative h-screen w-full flex-col flex justify-center items-center bg-transparent">
-        <p className="text-center text-white mb-36 mx-6 text-6xl font-lexend font-medium">
+        <p className="text-center text-white mb-36 mx-6 text-3xl sm:text-6xl font-lexend font-medium">
           Join Quill, and embark on your creative voyage.
         </p>
-        <div className="z-10 relative flex  gap-20 justify-end  items-center  ">
+        <div className="z-10 relative flex flex-col sm:flex-row gap-20 justify-end  items-center">
           <Homebutton text="Create Room" href={createLink} />
           <Homebutton text="Join Room" href={joinLink} />
         </div>
