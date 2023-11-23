@@ -27,10 +27,18 @@ export class SyncState {
      */
     this.lastBroadcastedSceneVersion = 0;
     this.sendWsJson = sendWsJson;
+    /**
+     * Tracks the latest versions of all elements to be displayed
+     * by VIEWERS canvases.
+     * @type {Map<string, ExcalidrawElement>}
+     */
+    this.displayElements = new Map();
 
     this.send = this.send.bind(this);
     this.shouldUpdate = this.shouldUpdate.bind(this);
     this.elementShouldBeSent = this.elementShouldBeSent.bind(this);
+    this.updateViewerState = this.updateViewerState.bind(this);
+    this.getViewerBoardElements = this.getViewerBoardElements.bind(this);
   }
 
   /**
@@ -55,6 +63,7 @@ export class SyncState {
     );
   }
 
+  // method for broadcasters
   /**
    *
    * @param {Array<ExcalidrawElement>} elements
@@ -79,5 +88,25 @@ export class SyncState {
         console.log(`Sent ${changedElements.length} elements`);
       }
     }
+  }
+
+  // methods for VIEWERS
+  /**
+   * Called by users in VIEWER mode to track the 
+   * latest state of the elements that was broadcasted
+   * by the user currently drawing.
+   * @param {ExcalidrawElement[]} elements 
+   */
+  updateViewerState(elements) {
+    elements.forEach((element) => {
+      this.displayElements.set(element.id, element);
+    })
+  }
+
+  /**
+   * @returns {ExcalidrawElement[]}
+   */
+  getViewerBoardElements() {
+    return Array.from(this.displayElements.values())
   }
 }

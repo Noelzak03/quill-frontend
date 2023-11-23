@@ -66,10 +66,8 @@ const WebSocketComponent = ({ token, username }) => {
       onOpen: () => {
         console.log("socket connection opened");
         sendJsonMessage({ Authorization: token });
-        setSyncState(new SyncState(sendJsonMessage));
       },
       onClose: () => {
-        setSyncState(null);
         console.log("socket connection closed");
       },
       onMessage: (event) => {
@@ -98,14 +96,13 @@ const WebSocketComponent = ({ token, username }) => {
             setChatmessages([...chatmessages, message.data]);
             break;
           case "drawing":
-            console.log('drawing event received');
             console.log(message.data);
             if (excalidrawAPI && message.data.user.username !== username) {
-              console.log("updating scene");
               excalidrawAPI.updateScene({
-                elements: message.data.elements,
+                elements: [...message.data.elements, ...syncState.getViewerBoardElements()],
                 commitToHistory: false
               });
+              syncState.updateViewerState(message.data.elements);
               // excalidrawAPI.scrollToContent(message.data.elements);
             } else {
               console.log('cant/dont need to update');
@@ -115,13 +112,13 @@ const WebSocketComponent = ({ token, username }) => {
             }
             break;
           case "turn_start":
-            console.log('recevied turn start');
             console.log(message.data.user.username === username);
+            setSyncState(new SyncState(sendJsonMessage));
             setIsDrawing(message.data.user.username === username);
             break;
           case "turn_end":
-            console.log('received turn_end');
             setIsDrawing(false);
+            setSyncState(null);
             excalidrawAPI.resetScene();
             break;
           default:
@@ -189,7 +186,7 @@ const WebSocketComponent = ({ token, username }) => {
           <div className="flex-grow">
             {isDrawing ? 
             <Excalidraw
-              theme="light"
+              theme="dark"
               viewModeEnabled={false}
               isCollaborating={true}
               onChange={onCanvasChange}
@@ -197,7 +194,7 @@ const WebSocketComponent = ({ token, username }) => {
               UIOptions={excalidrawUIOptions}
             /> : 
             <Excalidraw
-              theme="light"
+              theme="dark"
               viewModeEnabled={true}
               isCollaborating={true}
               onChange={onCanvasChange}
