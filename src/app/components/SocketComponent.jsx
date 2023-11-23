@@ -113,14 +113,19 @@ const WebSocketComponent = ({ token, username }) => {
 
   if (error) {
     return (
-      <div className="flex flex-col items-center justify-center h-screen">
-        <div>
-          <Link
-            href="/joinroom"
-            className="p-2 text-sm sm:text-lg text-white border-2 border-primary bg-secondary hover:bg-primary hover:text-secondary text-center"
-          >
-            {error}
-          </Link>
+      <div className="flex flex-col">
+        <div className="my-8">
+          <Quill />
+        </div>
+        <div className="flex flex-col items-center justify-center m-8">
+          <div>
+            <Link
+              href="/joinroom"
+              className="p-2 text-sm sm:text-lg text-white border-2 border-primary bg-secondary hover:bg-primary hover:text-secondary text-center"
+            >
+              {error}
+            </Link>
+          </div>
         </div>
       </div>
     );
@@ -195,9 +200,16 @@ const WebSocketComponent = ({ token, username }) => {
         <div className="my-8">
           <Quill />
         </div>
-        <div>
-          <h1>game ended</h1>
-        </div>
+        <Link
+          href="/"
+          className=" text-white border-2 p-4 my-4 mx-6 border-primary bg-secondary hover:bg-primary hover:text-secondary text-center"
+        >
+          <h2 className="text-lg font-semibold mb-2">Game Ended</h2>
+          <p href="/" className="text-sm">
+            Thank you for playing! Feel free to start a new game or join another
+            one.
+          </p>
+        </Link>
       </div>
     );
   }
