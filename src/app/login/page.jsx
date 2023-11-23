@@ -6,7 +6,6 @@ import { SubmitButton } from "../components/Formsubmit";
 import Link from "next/link";
 import { login } from "../actions";
 import React, { useRef } from "react";
-import { useState } from "react";
 
 export default function Login() {
   const ref = useRef(null);

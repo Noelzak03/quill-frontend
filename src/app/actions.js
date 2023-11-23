@@ -10,7 +10,7 @@ export async function login(prevState, formData) {
   const res = await fetch(url, {
     method: "POST",
     body: formData,
-    cache: 'no-store'
+    cache: "no-store"
   });
 
   const data = await res.json();
@@ -19,7 +19,7 @@ export async function login(prevState, formData) {
     cookies().set("authorization", `Bearer ${data.access_token}`, {
       maxAge: 60 * 60 * 24
     }); // cookie lasts for a day
-    redirect("/works");
+    redirect("/");
   } else {
     return { message: data.message };
   }
@@ -37,7 +37,7 @@ export async function signup(prevState, formData) {
       username: formData.get("username"),
       password: formData.get("password")
     }),
-    cache: 'no-store'
+    cache: "no-store"
   });
   const data = await res.json();
   console.log(data);
@@ -46,7 +46,7 @@ export async function signup(prevState, formData) {
     cookies().set("authorization", `Bearer ${data.access_token}`, {
       maxAge: 60 * 60 * 24
     }); // cookie lasts for a day
-    redirect("/works");
+    redirect("/");
   } else {
     return { message: data.message };
   }
@@ -65,7 +65,7 @@ export async function room() {
     headers: {
       Authorization: token.value
     },
-    cache: 'no-store'
+    cache: "no-store"
   });
   const data = await res.json();
 
@@ -79,16 +79,10 @@ export async function room() {
 
 export async function gettoken() {
   const token = cookies().get("authorization");
-  if (!token) {
-    redirect("/login");
-  }
-  return token.value;
+  return token;
 }
 
 export async function getusername() {
   const token = cookies().get("username");
-  if (!token) {
-    redirect("/login");
-  }
-  return token.value;
+  return token;
 }
