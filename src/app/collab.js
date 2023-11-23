@@ -3,15 +3,7 @@
  * @typedef {import("@excalidraw/excalidraw/types/element/types").ExcalidrawElement} ExcalidrawElement
  */
 
-/**
- * Returns the version of a group of elements. The version
- * of a scene is the sum of the versions of its elements.
- * @param {Array<ExcalidrawElement>} elements
- */
-function sceneVersion(elements) {
-  return elements.reduce((acc, el) => acc + el.version, 0);
-
-}
+import { getSceneVersion } from "@excalidraw/excalidraw";
 
 /**
  * Maintains the state of broadcasted elements, to avoid broadcasting
@@ -47,7 +39,7 @@ export class SyncState {
    * @returns {boolean}
    */
   shouldUpdate(elements) {
-    return sceneVersion(elements) > this.lastBroadcastedSceneVersion;
+    return getSceneVersion(elements) > this.lastBroadcastedSceneVersion;
   }
 
   /**
