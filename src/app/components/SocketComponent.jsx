@@ -187,6 +187,7 @@ const WebSocketComponent = ({ token, username }) => {
             <Excalidraw
               theme="dark"
               viewModeEnabled={false}
+              zenModeEnabled={true}
               isCollaborating={true}
               onChange={onCanvasChange}
               excalidrawAPI={(api) => setExcalidrawAPI(api)}
@@ -195,6 +196,7 @@ const WebSocketComponent = ({ token, username }) => {
             <Excalidraw
               theme="dark"
               viewModeEnabled={true}
+              zenModeEnabled={true}
               isCollaborating={true}
               onChange={onCanvasChange}
               excalidrawAPI={(api) => setExcalidrawAPI(api)}
