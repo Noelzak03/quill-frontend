@@ -16,7 +16,7 @@ export async function login(prevState, formData) {
   const data = await res.json();
   if (res.status == 200) {
     cookies().set("username", data.username, { maxAge: 60 * 60 * 24 });
-    cookies().set("authorization", `Bearer ${data.access_token}`, {
+    cookies().set("quill_auth", `Bearer ${data.access_token}`, {
       maxAge: 60 * 60 * 24
     }); // cookie lasts for a day
     redirect("/");
@@ -43,7 +43,7 @@ export async function signup(prevState, formData) {
   console.log(data);
   if (res.status == 200) {
     cookies().set("username", data.username, { maxAge: 60 * 60 * 24 });
-    cookies().set("authorization", `Bearer ${data.access_token}`, {
+    cookies().set("quill_auth", `Bearer ${data.access_token}`, {
       maxAge: 60 * 60 * 24
     }); // cookie lasts for a day
     redirect("/");
@@ -54,8 +54,8 @@ export async function signup(prevState, formData) {
 
 export async function room() {
   "use server";
-  const url = process.env.NEXT_PUBLIC_API_URL + "room";
-  const token = cookies().get("authorization");
+  const url = process.env.NEXT_PUBLIC_API_URL + "room/";
+  const token = cookies().get("quill_auth");
   if (!token) {
     redirect("/login");
   }
@@ -68,7 +68,7 @@ export async function room() {
     cache: "no-store"
   });
   const data = await res.json();
-
+  console.log(`${JSON.stringify(data)} - data from room, token=${token.value}`);
   if (res.status == 200) {
     // cookies().set("roomid", data.room_id, { maxAge: 60 * 60 * 24 });
     return data;
@@ -78,7 +78,7 @@ export async function room() {
 }
 
 export async function gettoken() {
-  const token = cookies().get("authorization");
+  const token = cookies().get("quill_auth");
   return token;
 }
 

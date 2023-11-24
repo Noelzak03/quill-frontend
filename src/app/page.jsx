@@ -1,34 +1,16 @@
-"use client";
 import React from "react";
-import Particle from "src/app/components/Particlebg";
+//import Particle from "src/app/components/Particlebg";
 import Quill from "src/app/components/Quilltext";
 import Homebutton from "src/app/components/Homebuttons";
-import { useEffect } from "react";
-import { gettoken } from "./actions";
-import { useState } from "react";
-function page() {
-  const [token, setToken] = useState(null);
-  let joinLink = "/login";
-  let createLink = "/login";
+import { cookies } from "next/headers";
 
-  useEffect(() => {
-    const recievedToken = async () => {
-      const recievedToken = await gettoken();
-      setToken(recievedToken);
-    };
+function HomePage({ loggedIn }) {
+  let createLink = loggedIn ? "/room" : "/login";
+  let joinLink = loggedIn ? "/joinroom" : "/signup";
 
-    recievedToken();
-  }, []);
-
-  if (token) {
-    createLink = "/room";
-    joinLink = "/joinroom";
-  }
-
-  return (
-    <div>
+    return (<div>
       <div className="z-0 ">
-        <Particle />
+        {/* <Particle /> */}
       </div>
       <div className="z-10 absolute  bg-transparent p-10 ">
         <Quill />
@@ -38,11 +20,17 @@ function page() {
           Join Quill, and embark on your creative voyage.
         </p>
         <div className="z-10 relative flex  gap-20 justify-end  items-center  ">
-          <Homebutton text="Create Room" href={createLink} />
-          <Homebutton text="Join Room" href={joinLink} />
+          <Homebutton text={loggedIn ? "Create Room" : "Login"} href={createLink} />
+          <Homebutton text={loggedIn ? "Join Room" : "Sign Up"} href={joinLink} />
         </div>
       </div>
-    </div>
+    </div>);
+}
+
+export default function Page() {
+  const isLoggedIn = cookies().has("quill_auth");
+
+  return (
+    <HomePage loggedIn={isLoggedIn} />
   );
 }
-export default page;
