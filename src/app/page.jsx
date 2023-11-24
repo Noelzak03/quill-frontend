@@ -28,7 +28,7 @@ function HomePage({ loggedIn }) {
 }
 
 export default function Page() {
-  const isLoggedIn = cookies().has("authorization");
+  const isLoggedIn = cookies().has("quill_auth");
 
   return (
     <HomePage loggedIn={isLoggedIn} />
