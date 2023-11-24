@@ -2,8 +2,12 @@
 import React, { useRef, useState, useEffect } from "react";
 import ScrollToBottom from "react-scroll-to-bottom";
 
-export default function Chat({ chatMessages, sendJsonMessage }) {
+export default function Chat({ chatMessages, sendJsonMessage, disabled }) {
   const [formValue, setFormValue] = useState("");
+  // if disabled is true, disable both the input field and the send button
+  // the send button should be disabled if either the prop `disabled` is true
+  // or if the textbox is empty (to disallow empty messages)
+  const sendDisabled = disabled || !formValue;
 
   const sendMessage = (e) => {
     e.preventDefault();
@@ -46,10 +50,12 @@ export default function Chat({ chatMessages, sendJsonMessage }) {
             value={formValue}
             onChange={(e) => setFormValue(e.target.value)}
             placeholder="Enter your message here"
+            disabled={disabled}
           />
           <button
-            className="flex-shrink-0 rounded-br-2xl bg-teal-500 mr-2 hover:bg-teal-700 border-teal-500 hover:border-teal-700 text-lg border-4 text-white py-1 px-2 rounded"
+            className={`flex-shrink-0 rounded-br-2xl ${ sendDisabled ? "bg-gray-700 border-gray-700" : "bg-teal-500 border-teal-500" } mr-2 ${ sendDisabled ? "" : "hover:bg-teal-700 hover:border-teal-700"} text-lg border-4 text-white py-1 px-2 rounded`}
             type="submit"
+            disabled={sendDisabled}
           >
             ➡️
           </button>
