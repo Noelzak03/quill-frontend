@@ -44,6 +44,7 @@ const WebSocketComponent = ({ token, username }) => {
   const [syncState, setSyncState] = useState(null);
   const [error, setError] = useState(null);
   const pathname = usePathname();
+  const roomid = pathname.split("/room/")[1];
   const [word, setWord] = useState("");
   const [restartTimer, setRestartTimer] = useState(false);
   // const trialgamestarted = "ongoing";
@@ -214,6 +215,9 @@ const WebSocketComponent = ({ token, username }) => {
             />
           </div>
         </div>
+        <div className="my-4 text-primary text-xl font-semibold pl-4 font-lexend">
+          Room Id: {roomid}
+        </div>
       </div>
     );
   } else if (gameStarted === "ongoing") {
@@ -266,7 +270,7 @@ const WebSocketComponent = ({ token, username }) => {
           </div>
         </div>
         <div className="flex flex-row">
-          <div className="flex flex-row">
+          <div className="flex flex-row pl-6">
             {users.map((person, index) => (
               <Player
                 key={index}
