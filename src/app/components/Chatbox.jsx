@@ -11,17 +11,17 @@ export default function Chat({ chatMessages, sendJsonMessage }) {
     setFormValue("");
   };
   const chatElement = chatMessages.map((msg) => (
-    <div className="flex flex-col   mb-2  border-primary border-2">
-      <div className=" p-2 text-base items-start justify-start text-[#a495ff]">
+    <div className="flex flex-col   mb-2  border-primary border-2  ">
+      <p className=" pl-2 pt-2 text-sm items-start justify-start text-[#a495ff]">
         {msg.username}
-      </div>
-      <div
+      </p>
+      <p
         className={`${
           msg.has_guessed ? "text-primary" : "text-white"
-        } p-2 text-2xl break-words`}
+        } pl-2 pb-2 text-2xl break-words`}
       >
         {msg.message}
-      </div>
+      </p>
     </div>
     // <p>{`${msg.username}: ${msg.message}`}</p>
   ));
