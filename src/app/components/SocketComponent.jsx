@@ -247,8 +247,10 @@ const WebSocketComponent = ({ token, username }) => {
         <div className="flex flex-row px-6">
           <div className="flex-grow">
             {isDrawing == null ? (
-              <div>
-                <h1>loading</h1>
+              <div className="flex items-center justify-center">
+                <p className="text-primary font-lexend text-2xl">
+                  The word is {word}. Brace yourself, the next round is coming.
+                </p>
               </div>
             ) : (
               <Excalidraw
