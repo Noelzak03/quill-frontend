@@ -39,6 +39,7 @@ const WebSocketComponent = ({ token, username }) => {
   const [owner, setOwner] = useState(false);
   const [isDrawing, setIsDrawing] = useState(false); // true when it is current user's turn to draw
   const [excalidrawAPI, setExcalidrawAPI] = useState(null);
+  const [currentdrawingplayer, setCurrentdrawingplayer] = useState("");
   const [syncState, setSyncState] = useState(null);
   const [error, setError] = useState(null);
   const pathname = usePathname();
@@ -121,6 +122,7 @@ const WebSocketComponent = ({ token, username }) => {
             console.log(message.data.user.username === username);
             setSyncState(new SyncState(sendJsonMessage));
             setIsDrawing(message.data.user.username === username);
+            setCurrentdrawingplayer(message.data.user.username);
             break;
           case "turn_end":
             setIsDrawing(false);
@@ -170,7 +172,7 @@ const WebSocketComponent = ({ token, username }) => {
           <div className="flex flex-col justify-start flex-grow">
             <div className="flex-grow">
               {users.map((person, index) => (
-                <Player key={index} name={person.username} />
+                <Player key={index} name={person.username} isPlaying={false} />
               ))}
             </div>
             <div>
@@ -203,7 +205,11 @@ const WebSocketComponent = ({ token, username }) => {
           <div className="flex flex-col justify-start">
             <div className="flex-grow">
               {users.map((person, index) => (
-                <Player key={index} name={person.username} />
+                <Player
+                  key={index}
+                  name={person.username}
+                  isPlaying={currentdrawingplayer === person.username}
+                />
               ))}
             </div>
           </div>
