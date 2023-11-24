@@ -140,7 +140,7 @@ const WebSocketComponent = ({ token, username }) => {
             setWord(message.data.answer);
             break;
           case "turn_end":
-            setIsDrawing(false);
+            setIsDrawing(null);
             setSyncState(null);
             excalidrawAPI.resetScene();
             break;
@@ -183,8 +183,8 @@ const WebSocketComponent = ({ token, username }) => {
         <div className="my-8">
           <Quill />
         </div>
-        <div className="flex flex-row">
-          <div className="flex flex-col justify-start flex-grow">
+        <div className="flex flex-row gap-4">
+          <div className="flex flex-col justify-start flex-grow pl-4">
             <div className="flex-grow">
               {users.map((person, index) => (
                 <Player key={index} name={person.username} isPlaying={false} />
@@ -201,7 +201,7 @@ const WebSocketComponent = ({ token, username }) => {
               )}
             </div>
           </div>
-          <div className="justify-end">
+          <div className="justify-end pr-4">
             <Chat
               chatMessages={chatmessages}
               sendJsonMessage={sendJsonMessage}
@@ -227,10 +227,11 @@ const WebSocketComponent = ({ token, username }) => {
         </div>
         <div className="flex flex-row">
           <div className="flex-grow">
-            {isDrawing ? (
+            { isDrawing == null ? 
+            <div><h1>loading</h1></div> :
               <Excalidraw
                 theme="dark"
-                viewModeEnabled={false}
+                viewModeEnabled={!isDrawing}
                 zenModeEnabled={true}
                 isCollaborating={true}
                 onChange={onCanvasChange}
@@ -249,7 +250,7 @@ const WebSocketComponent = ({ token, username }) => {
               />
             )}
           </div>
-          <div className="justify-end">
+          <div className="justify-end pl-6 pr-4">
             <Chat
               chatMessages={chatmessages}
               sendJsonMessage={sendJsonMessage}
