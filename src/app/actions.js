@@ -68,7 +68,7 @@ export async function room() {
     cache: "no-store"
   });
   const data = await res.json();
-
+  console.log(`${data} - data from room`);
   if (res.status == 200) {
     // cookies().set("roomid", data.room_id, { maxAge: 60 * 60 * 24 });
     return data;
