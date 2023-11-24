@@ -43,6 +43,20 @@ const WebSocketComponent = ({ token, username }) => {
   const [syncState, setSyncState] = useState(null);
   const [error, setError] = useState(null);
   const pathname = usePathname();
+  const [word, setWord] = useState("");
+  const Underscores = ({ word }) => {
+    const underscores = word
+      .split("")
+      .map((char, index) => (
+        <span key={index}>{char === " " ? " " : " _ "}</span>
+      ));
+
+    return (
+      <div className="text-primary text-lg font-semibold">
+        Word to guess: {underscores}
+      </div>
+    );
+  };
 
   const excalidrawUIOptions = {
     canvasActions: {
@@ -123,6 +137,7 @@ const WebSocketComponent = ({ token, username }) => {
             setSyncState(new SyncState(sendJsonMessage));
             setIsDrawing(message.data.user.username === username);
             setCurrentdrawingplayer(message.data.user.username);
+            setWord(message.data.answer);
             break;
           case "turn_end":
             setIsDrawing(false);
@@ -201,16 +216,14 @@ const WebSocketComponent = ({ token, username }) => {
         <div className="my-8">
           <Quill />
         </div>
-        <div className="flex flex-row">
-          <div className="flex flex-row">
-            {users.map((person, index) => (
-              <Player
-                key={index}
-                name={person.username}
-                isPlaying={currentdrawingplayer === person.username}
-              />
-            ))}
-          </div>
+        <div className="">
+          {isDrawing ? (
+            <p className="text-lg font-semibold text-primary">
+              Word to Draw: {word}
+            </p>
+          ) : (
+            <Underscores word={word} />
+          )}
         </div>
         <div className="flex flex-row">
           <div className="flex-grow">
@@ -241,6 +254,17 @@ const WebSocketComponent = ({ token, username }) => {
               chatMessages={chatmessages}
               sendJsonMessage={sendJsonMessage}
             />
+          </div>
+        </div>
+        <div className="flex flex-row">
+          <div className="flex flex-row">
+            {users.map((person, index) => (
+              <Player
+                key={index}
+                name={person.username}
+                isPlaying={currentdrawingplayer === person.username}
+              />
+            ))}
           </div>
         </div>
       </div>
