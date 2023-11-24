@@ -6,7 +6,7 @@ import { cookies } from "next/headers";
 
 function HomePage({ loggedIn }) {
   let createLink = loggedIn ? "/room" : "/login";
-  let joinLink = loggedIn ? "/joinroom" : "/signup";
+  let joinLink = loggedIn ? "/join" : "/signup";
 
     return (<div>
       <div className="z-0 ">

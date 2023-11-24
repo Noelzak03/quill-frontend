@@ -168,7 +168,7 @@ const WebSocketComponent = ({ token, username }) => {
         <div className="flex flex-col items-center justify-center m-8">
           <div>
             <Link
-              href="/joinroom"
+              href="/join"
               className="p-2 text-sm sm:text-lg text-white border-2 border-primary bg-secondary hover:bg-primary hover:text-secondary text-center"
             >
               {error}
@@ -238,17 +238,7 @@ const WebSocketComponent = ({ token, username }) => {
                 excalidrawAPI={(api) => setExcalidrawAPI(api)}
                 UIOptions={excalidrawUIOptions}
               />
-            ) : (
-              <Excalidraw
-                theme="dark"
-                viewModeEnabled={true}
-                zenModeEnabled={true}
-                isCollaborating={true}
-                onChange={onCanvasChange}
-                excalidrawAPI={(api) => setExcalidrawAPI(api)}
-                UIOptions={excalidrawUIOptions}
-              />
-            )}
+            }
           </div>
           <div className="justify-end pl-6 pr-4">
             <Chat
