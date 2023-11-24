@@ -6,9 +6,10 @@ import useWebSocket from "react-use-websocket";
 import { useState } from "react";
 import Player from "./lobbyplayer";
 import Quill from "./Quilltext";
-// import { Excalidraw } from "@excalidraw/excalidraw";
+import { SyncState } from "@/app/collab";
 import Link from "next/link";
 import dynamic from "next/dynamic";
+
 const Excalidraw = dynamic(
   async () => (await import("@excalidraw/excalidraw")).Excalidraw,
   {
@@ -36,8 +37,9 @@ const WebSocketComponent = ({ token, username }) => {
   const [chatmessages, setChatmessages] = useState([]);
   const [gameStarted, setGameStarted] = useState("lobby");
   const [owner, setOwner] = useState(false);
-  const [isDrawing, setIsDrawing] = useState(true); // true when it is current user's turn to draw
+  const [isDrawing, setIsDrawing] = useState(false); // true when it is current user's turn to draw
   const [excalidrawAPI, setExcalidrawAPI] = useState(null);
+  const [syncState, setSyncState] = useState(null);
   const [error, setError] = useState(null);
   const pathname = usePathname();
 
@@ -48,6 +50,16 @@ const WebSocketComponent = ({ token, username }) => {
       saveToActiveFile: false
     }
   };
+
+  function onCanvasChange(elements, state, files) {
+    if (syncState) {
+      if (isDrawing) {
+        syncState.send(elements);
+      }
+    } else {
+      console.log("syncstate is still null");
+    }
+  }
 
   const serverUrl = process.env.NEXT_PUBLIC_WEBSOCKET_URL + pathname;
   const { sendJsonMessage, lastJsonMessage, readyState } = useWebSocket(
@@ -67,7 +79,7 @@ const WebSocketComponent = ({ token, username }) => {
       },
       onMessage: (event) => {
         const message = JSON.parse(event.data);
-
+        console.log(message);
         switch (message.event_type) {
           case "connect":
             setUsers(message.data.users);
@@ -91,13 +103,32 @@ const WebSocketComponent = ({ token, username }) => {
             setChatmessages([...chatmessages, message.data]);
             break;
           case "drawing":
+            if (excalidrawAPI && message.data.user.username !== username) {
+              syncState.updateViewerState(message.data.elements);
+              excalidrawAPI.updateScene({
+                elements: [...syncState.getViewerBoardElements()],
+                commitToHistory: false
+              });
+              // excalidrawAPI.scrollToContent(message.data.elements);
+            } else {
+              console.log("cant/dont need to update");
+            }
+            if (!excalidrawAPI) {
+              console.log("could not render as excalidrawAPI is null");
+            }
             break;
           case "turn_start":
+            console.log(message.data.user.username === username);
+            setSyncState(new SyncState(sendJsonMessage));
+            setIsDrawing(message.data.user.username === username);
             break;
           case "turn_end":
+            setIsDrawing(false);
+            setSyncState(null);
+            excalidrawAPI.resetScene();
             break;
           default:
-            console.log("Unhandled event type:", message.type);
+            console.log("Unhandled event type:", message.event_type);
         }
       }
     }
@@ -177,13 +208,27 @@ const WebSocketComponent = ({ token, username }) => {
             </div>
           </div>
           <div className="flex-grow">
-            <Excalidraw
-              theme="dark"
-              viewModeEnabled={!isDrawing}
-              isCollaborating={true}
-              excalidrawAPI={(api) => setExcalidrawAPI(api)}
-              UIOptions={excalidrawUIOptions}
-            />
+            {isDrawing ? (
+              <Excalidraw
+                theme="dark"
+                viewModeEnabled={false}
+                zenModeEnabled={true}
+                isCollaborating={true}
+                onChange={onCanvasChange}
+                excalidrawAPI={(api) => setExcalidrawAPI(api)}
+                UIOptions={excalidrawUIOptions}
+              />
+            ) : (
+              <Excalidraw
+                theme="dark"
+                viewModeEnabled={true}
+                zenModeEnabled={true}
+                isCollaborating={true}
+                onChange={onCanvasChange}
+                excalidrawAPI={(api) => setExcalidrawAPI(api)}
+                UIOptions={excalidrawUIOptions}
+              />
+            )}
           </div>
           <div className="justify-end">
             <Chat
