@@ -116,7 +116,7 @@ const WebSocketComponent = ({ token, username }) => {
             setIsDrawing(message.data.user.username === username);
             break;
           case "turn_end":
-            setIsDrawing(false);
+            setIsDrawing(null);
             setSyncState(null);
             excalidrawAPI.resetScene();
             break;
@@ -183,27 +183,17 @@ const WebSocketComponent = ({ token, username }) => {
             </div>
           </div>
           <div className="flex-grow">
-            {isDrawing ? (
+            { isDrawing == null ? 
+            <div><h1>loading</h1></div> :
               <Excalidraw
                 theme="dark"
-                viewModeEnabled={false}
+                viewModeEnabled={!isDrawing}
                 zenModeEnabled={true}
                 isCollaborating={true}
                 onChange={onCanvasChange}
                 excalidrawAPI={(api) => setExcalidrawAPI(api)}
                 UIOptions={excalidrawUIOptions}
-              />
-            ) : (
-              <Excalidraw
-                theme="dark"
-                viewModeEnabled={true}
-                zenModeEnabled={true}
-                isCollaborating={true}
-                onChange={onCanvasChange}
-                excalidrawAPI={(api) => setExcalidrawAPI(api)}
-                UIOptions={excalidrawUIOptions}
-              />
-            )}
+              /> }
           </div>
           <div className="justify-end pl-6 pr-4">
             <Chat
