@@ -104,10 +104,10 @@ const WebSocketComponent = ({ token, username }) => {
               });
               // excalidrawAPI.scrollToContent(message.data.elements);
             } else {
-              console.log('cant/dont need to update');
+              console.log("cant/dont need to update");
             }
             if (!excalidrawAPI) {
-              console.log('could not render as excalidrawAPI is null');
+              console.log("could not render as excalidrawAPI is null");
             }
             break;
           case "turn_start":
@@ -141,8 +141,8 @@ const WebSocketComponent = ({ token, username }) => {
         <div className="my-8">
           <Quill />
         </div>
-        <div className="flex flex-row">
-          <div className="flex flex-col justify-start flex-grow">
+        <div className="flex flex-row gap-4">
+          <div className="flex flex-col justify-start flex-grow pl-4">
             <div className="flex-grow">
               {users.map((person, index) => (
                 <Player key={index} name={person.username} />
@@ -159,7 +159,7 @@ const WebSocketComponent = ({ token, username }) => {
               )}
             </div>
           </div>
-          <div className="justify-end">
+          <div className="justify-end pr-4">
             <Chat
               chatMessages={chatmessages}
               sendJsonMessage={sendJsonMessage}
@@ -175,7 +175,7 @@ const WebSocketComponent = ({ token, username }) => {
           <Quill />
         </div>
         <div className="flex flex-row">
-          <div className="flex flex-col justify-start">
+          <div className="flex flex-col justify-start pr-6 pl-4">
             <div className="flex-grow">
               {users.map((person, index) => (
                 <Player key={index} name={person.username} />
@@ -183,27 +183,29 @@ const WebSocketComponent = ({ token, username }) => {
             </div>
           </div>
           <div className="flex-grow">
-            {isDrawing ? 
-            <Excalidraw
-              theme="dark"
-              viewModeEnabled={false}
-              zenModeEnabled={true}
-              isCollaborating={true}
-              onChange={onCanvasChange}
-              excalidrawAPI={(api) => setExcalidrawAPI(api)}
-              UIOptions={excalidrawUIOptions}
-            /> : 
-            <Excalidraw
-              theme="dark"
-              viewModeEnabled={true}
-              zenModeEnabled={true}
-              isCollaborating={true}
-              onChange={onCanvasChange}
-              excalidrawAPI={(api) => setExcalidrawAPI(api)}
-              UIOptions={excalidrawUIOptions}
-            /> }
+            {isDrawing ? (
+              <Excalidraw
+                theme="dark"
+                viewModeEnabled={false}
+                zenModeEnabled={true}
+                isCollaborating={true}
+                onChange={onCanvasChange}
+                excalidrawAPI={(api) => setExcalidrawAPI(api)}
+                UIOptions={excalidrawUIOptions}
+              />
+            ) : (
+              <Excalidraw
+                theme="dark"
+                viewModeEnabled={true}
+                zenModeEnabled={true}
+                isCollaborating={true}
+                onChange={onCanvasChange}
+                excalidrawAPI={(api) => setExcalidrawAPI(api)}
+                UIOptions={excalidrawUIOptions}
+              />
+            )}
           </div>
-          <div className="justify-end">
+          <div className="justify-end pl-6 pr-4">
             <Chat
               chatMessages={chatmessages}
               sendJsonMessage={sendJsonMessage}
