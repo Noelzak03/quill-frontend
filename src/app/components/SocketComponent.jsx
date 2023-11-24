@@ -202,17 +202,17 @@ const WebSocketComponent = ({ token, username }) => {
           <Quill />
         </div>
         <div className="flex flex-row">
-          <div className="flex flex-col justify-start">
-            <div className="flex-grow">
-              {users.map((person, index) => (
-                <Player
-                  key={index}
-                  name={person.username}
-                  isPlaying={currentdrawingplayer === person.username}
-                />
-              ))}
-            </div>
+          <div className="flex flex-row">
+            {users.map((person, index) => (
+              <Player
+                key={index}
+                name={person.username}
+                isPlaying={currentdrawingplayer === person.username}
+              />
+            ))}
           </div>
+        </div>
+        <div className="flex flex-row">
           <div className="flex-grow">
             {isDrawing ? (
               <Excalidraw
