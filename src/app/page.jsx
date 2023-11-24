@@ -19,7 +19,7 @@ function HomePage({ loggedIn }) {
         <p className="text-center text-white mb-36 mx-6 text-3xl sm:text-6xl font-lexend font-medium">
           Join Quill, and embark on your creative voyage.
         </p>
-        <div className="z-10 relative flex  gap-20 justify-end  items-center  ">
+        <div className="z-10 relative flex flex-col sm:flex-row gap-20 justify-end  items-center">
           <Homebutton text={loggedIn ? "Create Room" : "Login"} href={createLink} />
           <Homebutton text={loggedIn ? "Join Room" : "Sign Up"} href={joinLink} />
         </div>
