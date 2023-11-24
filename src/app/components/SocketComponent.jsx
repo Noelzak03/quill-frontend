@@ -176,9 +176,9 @@ const WebSocketComponent = ({ token, username }) => {
               ))}
             </div>
             <div>
-              {owner && (
+              {owner && users.length > 1 && (
                 <button
-                  className="p-2 m-2 sm:font-medium text-white border-2 border-primary bg-secondary hover:bg-primary text-center"
+                  className="p-2 m-2 sm:font-medium text-white border-2 border-primary bg-secondary hover:text-secondary hover:bg-primary text-center"
                   onClick={startGame}
                 >
                   Start Game
