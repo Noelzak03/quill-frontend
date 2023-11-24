@@ -77,6 +77,11 @@ export async function room() {
   }
 }
 
+export async function joinroom(prevState, formData) {
+  "use server";
+  redirect("/room/" + formData.get("roomid"));
+}
+
 export async function gettoken() {
   const token = cookies().get("quill_auth");
   return token;

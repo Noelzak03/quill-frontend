@@ -7,6 +7,7 @@ import { useState } from "react";
 import Player from "./lobbyplayer";
 import Quill from "./Quilltext";
 import { SyncState } from "@/app/collab";
+import Link from "next/link";
 import dynamic from "next/dynamic";
 
 const Excalidraw = dynamic(
@@ -38,8 +39,24 @@ const WebSocketComponent = ({ token, username }) => {
   const [owner, setOwner] = useState(false);
   const [isDrawing, setIsDrawing] = useState(false); // true when it is current user's turn to draw
   const [excalidrawAPI, setExcalidrawAPI] = useState(null);
+  const [currentdrawingplayer, setCurrentdrawingplayer] = useState("");
   const [syncState, setSyncState] = useState(null);
+  const [error, setError] = useState(null);
   const pathname = usePathname();
+  const [word, setWord] = useState("");
+  const Underscores = ({ word }) => {
+    const underscores = word
+      .split("")
+      .map((char, index) => (
+        <span key={index}>{char === " " ? " " : " _ "}</span>
+      ));
+
+    return (
+      <div className="text-primary text-lg font-semibold">
+        Word to guess: {underscores}
+      </div>
+    );
+  };
 
   const excalidrawUIOptions = {
     canvasActions: {
@@ -69,6 +86,11 @@ const WebSocketComponent = ({ token, username }) => {
       },
       onClose: () => {
         console.log("socket connection closed");
+      },
+      onError: (error) => {
+        console.log(error);
+        console.error("WebSocket error:", error);
+        setError("Failed to connect. Please try again");
       },
       onMessage: (event) => {
         const message = JSON.parse(event.data);
@@ -114,6 +136,8 @@ const WebSocketComponent = ({ token, username }) => {
             console.log(message.data.user.username === username);
             setSyncState(new SyncState(sendJsonMessage));
             setIsDrawing(message.data.user.username === username);
+            setCurrentdrawingplayer(message.data.user.username);
+            setWord(message.data.answer);
             break;
           case "turn_end":
             setIsDrawing(null);
@@ -135,7 +159,25 @@ const WebSocketComponent = ({ token, username }) => {
     console.log(gameStarted);
   }, [gameStarted]);
 
-  if (gameStarted === "lobby") {
+  if (error) {
+    return (
+      <div className="flex flex-col">
+        <div className="my-8">
+          <Quill />
+        </div>
+        <div className="flex flex-col items-center justify-center m-8">
+          <div>
+            <Link
+              href="/join"
+              className="p-2 text-sm sm:text-lg text-white border-2 border-primary bg-secondary hover:bg-primary hover:text-secondary text-center"
+            >
+              {error}
+            </Link>
+          </div>
+        </div>
+      </div>
+    );
+  } else if (gameStarted === "lobby") {
     return (
       <div className="flex flex-col">
         <div className="my-8">
@@ -145,13 +187,13 @@ const WebSocketComponent = ({ token, username }) => {
           <div className="flex flex-col justify-start flex-grow pl-4">
             <div className="flex-grow">
               {users.map((person, index) => (
-                <Player key={index} name={person.username} />
+                <Player key={index} name={person.username} isPlaying={false} />
               ))}
             </div>
             <div>
-              {owner && (
+              {owner && users.length > 1 && (
                 <button
-                  className="p-2 m-2 sm:font-medium text-white border-2 border-primary bg-secondary hover:bg-primary text-center"
+                  className="p-2 m-2 sm:font-medium text-white border-2 border-primary bg-secondary hover:text-secondary hover:bg-primary text-center"
                   onClick={startGame}
                 >
                   Start Game
@@ -174,14 +216,16 @@ const WebSocketComponent = ({ token, username }) => {
         <div className="my-8">
           <Quill />
         </div>
+        <div className="">
+          {isDrawing ? (
+            <p className="text-lg font-semibold text-primary">
+              Word to Draw: {word}
+            </p>
+          ) : (
+            <Underscores word={word} />
+          )}
+        </div>
         <div className="flex flex-row">
-          <div className="flex flex-col justify-start pr-6 pl-4">
-            <div className="flex-grow">
-              {users.map((person, index) => (
-                <Player key={index} name={person.username} />
-              ))}
-            </div>
-          </div>
           <div className="flex-grow">
             { isDrawing == null ? 
             <div><h1>loading</h1></div> :
@@ -193,13 +237,25 @@ const WebSocketComponent = ({ token, username }) => {
                 onChange={onCanvasChange}
                 excalidrawAPI={(api) => setExcalidrawAPI(api)}
                 UIOptions={excalidrawUIOptions}
-              /> }
+              />
+            }
           </div>
           <div className="justify-end pl-6 pr-4">
             <Chat
               chatMessages={chatmessages}
               sendJsonMessage={sendJsonMessage}
             />
+          </div>
+        </div>
+        <div className="flex flex-row">
+          <div className="flex flex-row">
+            {users.map((person, index) => (
+              <Player
+                key={index}
+                name={person.username}
+                isPlaying={currentdrawingplayer === person.username}
+              />
+            ))}
           </div>
         </div>
       </div>
@@ -210,9 +266,16 @@ const WebSocketComponent = ({ token, username }) => {
         <div className="my-8">
           <Quill />
         </div>
-        <div>
-          <h1>game ended</h1>
-        </div>
+        <Link
+          href="/"
+          className=" text-white border-2 p-4 my-4 mx-6 border-primary bg-secondary hover:bg-primary hover:text-secondary text-center"
+        >
+          <h2 className="text-lg font-semibold mb-2">Game Ended</h2>
+          <p href="/" className="text-sm">
+            Thank you for playing! Feel free to start a new game or join another
+            one.
+          </p>
+        </Link>
       </div>
     );
   }
