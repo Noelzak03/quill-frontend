@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 
 export default function Chat({ chatMessages, sendJsonMessage }) {
   const [formValue, setFormValue] = useState("");
@@ -10,14 +10,15 @@ export default function Chat({ chatMessages, sendJsonMessage }) {
     setFormValue("");
   };
   const chatElement = chatMessages.map((msg) => (
-    <div className="flex flex-col  gap-1 mb-2">
-      <p className=" text-base items-start justify-start text-white">
+    <div className="flex flex-col   mb-2  border-primary border-2">
+      <div className=" p-2 text-base items-start justify-start text-[#a495ff]">
         {msg.username}
-      </p>
-      <p className="text-3xl text-white">{msg.message}</p>
+      </div>
+      <p className="p-2 text-3xl text-white">{msg.message}</p>
     </div>
     // <p>{`${msg.username}: ${msg.message}`}</p>
   ));
+
   return (
     <div className="h-[42rem] w-[28rem]   border-4 border-primary items-self-center flex flex-col justify-evenly">
       <div className=" flex text-left  text-primary h-1/6 w-full  text-5xl  bg-black border-b-4 border-primary font-lexend font-semibold justify-start items-center">
@@ -25,8 +26,8 @@ export default function Chat({ chatMessages, sendJsonMessage }) {
           Chat
         </p>
       </div>
-      <div className="h-2/3 w-full bg-black">
-        <div className="text-left text-black  h-1/6 w-full p-8 text-5xl   font-lexend font-bold">
+      <div className="h-2/3 w-full bg-black overflow-auto">
+        <div className="text-left text-black  h-1/6 w-full p-8 text-5xl   font-lexend font-bold ">
           {chatElement}
         </div>
       </div>
