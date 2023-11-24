@@ -1,5 +1,5 @@
 "use client";
-import React, { useRef, useState, useEffect } from "react";
+import React, { useState } from "react";
 import ScrollToBottom from "react-scroll-to-bottom";
 
 export default function Chat({ chatMessages, sendJsonMessage, disabled }) {
