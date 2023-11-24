@@ -15,13 +15,13 @@ export default function Chat({ chatMessages, sendJsonMessage }) {
       <div className=" p-2 text-base items-start justify-start text-[#a495ff]">
         {msg.username}
       </div>
-      <p
+      <div
         className={`${
           msg.has_guessed ? "text-primary" : "text-white"
-        } p-2 text-2xl`}
+        } p-2 text-2xl break-words`}
       >
         {msg.message}
-      </p>
+      </div>
     </div>
     // <p>{`${msg.username}: ${msg.message}`}</p>
   ));
