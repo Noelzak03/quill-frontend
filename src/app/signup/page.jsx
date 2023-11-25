@@ -5,30 +5,36 @@ import Quill from "../components/Quilltext";
 import Link from "next/link";
 import { signup } from "../actions";
 import { SubmitButton } from "../components/Formsubmit";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 
 export default function Signup() {
   const ref = useRef(null);
-
+  const [error, setError] = useState("");
   const action = async (event) => {
     event.preventDefault();
 
-    let message;
+    try {
+      let message;
 
-    const formData = new FormData(ref.current);
+      const formData = new FormData(ref.current);
 
-    if (formData.get("password") !== formData.get("confirmPassword")) {
-      message = "Passwords do not match";
-    } else {
-      try {
-        message = await signup("", formData);
-      } catch (err) {
-        message = "Server is down, Try again later";
+      if (formData.get("password") !== formData.get("confirmPassword")) {
+        message = "Passwords do not match";
+        throw new Error(message);
+      } else {
+        try {
+          message = await signup("", formData);
+        } catch (err) {
+          message = "Server is down, Try again later";
+          throw new Error(message);
+        }
       }
-    }
 
-    ref.current.reset();
-    console.log(message);
+      ref.current.reset();
+      console.log(message);
+    } catch (error) {
+      setError(error.message);
+    }
   };
 
   return (
@@ -67,6 +73,7 @@ export default function Signup() {
                 required
               />
             </div>
+            {error && <p className="text-red-500">{error}</p>}
             <div className="ml-0 flex mt-8 justify-center">
               <Link
                 href="/login"

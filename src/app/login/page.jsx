@@ -5,21 +5,25 @@ import { SubmitButton } from "../components/Formsubmit";
 
 import Link from "next/link";
 import { login } from "../actions";
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 
 export default function Login() {
   const ref = useRef(null);
-
+  const [error, setError] = useState("");
   const action = async (event) => {
     event.preventDefault();
 
-    let message;
+    try {
+      let message;
 
-    const formData = new FormData(ref.current);
+      const formData = new FormData(ref.current);
 
-    message = await login("", formData);
-    ref.current.reset();
-    console.log(message);
+      message = await login("", formData);
+      ref.current.reset();
+      console.log(message);
+    } catch (error) {
+      setError(error.message);
+    }
   };
 
   return (
@@ -52,6 +56,7 @@ export default function Login() {
                   required
                 />
               </div>
+              {error && <p className="text-red-500">{error}</p>}
               <div className="ml-0 flex mt-8 justify-center">
                 <Link
                   href="/signup"

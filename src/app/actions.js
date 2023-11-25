@@ -20,6 +20,8 @@ export async function login(prevState, formData) {
       maxAge: 60 * 60 * 24
     }); // cookie lasts for a day
     redirect("/");
+  } else if (res.status == 401) {
+    throw new Error("Incorrect username or password");
   } else {
     return { message: data.message };
   }
