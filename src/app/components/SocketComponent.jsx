@@ -9,6 +9,7 @@ import Quill from "./Quilltext";
 import { SyncState } from "@/app/collab";
 import Link from "next/link";
 import dynamic from "next/dynamic";
+import Timer from "./timer";
 
 const Excalidraw = dynamic(
   async () => (await import("@excalidraw/excalidraw")).Excalidraw,
@@ -43,7 +44,12 @@ const WebSocketComponent = ({ token, username }) => {
   const [syncState, setSyncState] = useState(null);
   const [error, setError] = useState(null);
   const pathname = usePathname();
+  const roomid = pathname.split("/room/")[1];
   const [word, setWord] = useState("");
+  const [restartTimer, setRestartTimer] = useState(false);
+  // const trialgamestarted = "ongoing";
+  const time = new Date();
+  time.setSeconds(time.getSeconds() + 60);
   const Underscores = ({ word }) => {
     const underscores = word
       .split("")
@@ -138,6 +144,7 @@ const WebSocketComponent = ({ token, username }) => {
             setIsDrawing(message.data.user.username === username);
             setCurrentdrawingplayer(message.data.user.username);
             setWord(message.data.answer);
+            setRestartTimer(!restartTimer);
             break;
           case "turn_end":
             setIsDrawing(null);
@@ -208,6 +215,9 @@ const WebSocketComponent = ({ token, username }) => {
             />
           </div>
         </div>
+        <div className="my-4 text-primary text-xl font-semibold pl-4 font-lexend">
+          Room Id: {roomid}
+        </div>
       </div>
     );
   } else if (gameStarted === "ongoing") {
@@ -216,19 +226,33 @@ const WebSocketComponent = ({ token, username }) => {
         <div className="my-8">
           <Quill />
         </div>
-        <div className="">
-          {isDrawing ? (
-            <p className="text-lg font-semibold text-primary">
-              Word to Draw: {word}
-            </p>
-          ) : (
-            <Underscores word={word} />
-          )}
-        </div>
-        <div className="flex flex-row">
+        <div className="flex flex-row px-6">
           <div className="flex-grow">
-            { isDrawing == null ? 
-            <div><h1>loading</h1></div> :
+            <div className="flex justify-between">
+              <div className="justify-start">
+                {isDrawing ? (
+                  <p className="text-lg font-semibold text-primary">
+                    Word to Draw: {word}
+                  </p>
+                ) : (
+                  <Underscores word={word} />
+                )}
+              </div>
+              <div className="justify-end">
+                <Timer expiryTimestamp={time} shouldRestart={restartTimer} />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="flex flex-row px-6">
+          <div className="flex-grow">
+            {isDrawing == null ? (
+              <div className="flex items-center justify-center">
+                <p className="text-primary font-lexend text-2xl">
+                  The word is {word}. Brace yourself, the next round is coming.
+                </p>
+              </div>
+            ) : (
               <Excalidraw
                 theme="dark"
                 viewModeEnabled={!isDrawing}
@@ -238,9 +262,9 @@ const WebSocketComponent = ({ token, username }) => {
                 excalidrawAPI={(api) => setExcalidrawAPI(api)}
                 UIOptions={excalidrawUIOptions}
               />
-            }
+            )}
           </div>
-          <div className="justify-end pl-6 pr-4">
+          <div className="justify-end pl-6">
             <Chat
               chatMessages={chatmessages}
               sendJsonMessage={sendJsonMessage}
@@ -248,7 +272,7 @@ const WebSocketComponent = ({ token, username }) => {
           </div>
         </div>
         <div className="flex flex-row">
-          <div className="flex flex-row">
+          <div className="flex flex-row pl-6">
             {users.map((person, index) => (
               <Player
                 key={index}
