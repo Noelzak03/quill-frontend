@@ -93,3 +93,26 @@ export async function getusername() {
   const token = cookies().get("username");
   return token;
 }
+
+export async function logout() {
+  "use server";
+
+  const url = process.env.NEXT_PUBLIC_API_URL + "user/logout";
+  const token = await gettoken();
+
+  const res = await fetch(url, {
+    method: "POST",
+    headers: {
+      Authorization: token.value
+    },
+    cache: "no-store"
+  });
+  const data = await res.json();
+  if (res.status == 200) {
+    cookies().delete("username");
+    cookies().delete("quill_auth");
+  } else {
+    return { message: data.message };
+  }
+  redirect("/");
+}
