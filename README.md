@@ -14,7 +14,7 @@ Quill is a multiplayer drawing website, featuring a live canvas .
 ### [Backend](https://github.com/anand2312/quill-server)
 
 - FastApi
-- PosgreSql
+- PostgreSql
 - Redis
 - SQLAlchemy
 
