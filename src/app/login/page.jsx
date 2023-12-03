@@ -1,6 +1,6 @@
 //Login Page
 "use client";
-import Quill from "../components/Quilltext";
+// import Quill from "../components/Quilltext";
 import { SubmitButton } from "../components/Formsubmit";
 
 import Link from "next/link";
@@ -29,7 +29,7 @@ export default function Login() {
   return (
     <>
       <div className="bg-transparent md:fixed z-10 p-2 sm:p-10">
-        <Quill />
+        {/* <Quill /> */}
         <div className="w-full">
           <form ref={ref} onSubmit={action} className="">
             <div className="p-16 flex-col justify-center">
