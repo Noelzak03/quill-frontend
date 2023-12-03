@@ -1,7 +1,7 @@
 //Sign Up Page
 
 "use client";
-import Quill from "../components/Quilltext";
+// import Quill from "../components/Quilltext";
 import Link from "next/link";
 import { signup } from "../actions";
 import { SubmitButton } from "../components/Formsubmit";
@@ -39,7 +39,7 @@ export default function Signup() {
 
   return (
     <div className="bg-transparent md:fixed z-10 p-2 sm:p-10">
-      <Quill />
+      {/* <Quill /> */}
       <div className="w-full">
         <form ref={ref} onSubmit={action} className="">
           <div className="p-16 flex-col justify-center">

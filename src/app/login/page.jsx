@@ -27,49 +27,70 @@ export default function Login() {
   };
 
   return (
-    <>
-      <div className="bg-transparent md:fixed z-10 p-2 sm:p-10">
-        {/* <Quill /> */}
-        <div className="w-full">
-          <form ref={ref} onSubmit={action} className="">
-            <div className="p-16 flex-col justify-center">
-              <h2 className="text-4xl font-semibold my-20">Welcome Back!</h2>
-              <h3 className="mt-12 mb-3">Enter credentials to login</h3>
-              <div className="mb-4">
+    <section className="bg-secondary min-h-screen">
+      <div className="flex flex-col items-center justify-center min-h-screen px-6 py-8 mx-auto lg:py-0">
+        <div className="w-full bg-secondary rounded-lg shadow border md:mt-0 sm:max-w-md xl:p-0 border-primary">
+          <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
+            <h1 className="text-xl font-bold leading-tight tracking-tight text-white md:text-2xl">
+              Login in to your account
+            </h1>
+            <form
+              className="space-y-4 md:space-y-6"
+              ref={ref}
+              onSubmit={action}
+            >
+              <div>
+                <label
+                  for="username"
+                  className="block mb-2 text-sm font-medium text-white"
+                >
+                  Your username
+                </label>
                 <input
                   type="text"
                   id="username"
                   name="username"
-                  className="w-full md:w-[30rem] border p-2 bg-secondary border-primary"
-                  placeholder="Username"
+                  placeholder="username"
+                  className="bg-secondary border border-primary text-primary sm:text-sm rounded-lg  block w-full p-2.5 "
                   required
                 />
               </div>
-              <div className="my-6">
+              <div>
+                <label
+                  for="password"
+                  className="block mb-2 text-sm font-medium text-white"
+                >
+                  Password
+                </label>
                 <input
                   type="password"
                   id="password"
                   name="password"
-                  className="w-full md:w-[30rem] border p-2 bg-secondary border-primary"
-                  placeholder="Password"
-                  minLength={8}
+                  placeholder="••••••••"
+                  className="bg-secondary border border-primary text-primary sm:text-sm rounded-lg  block w-full p-2.5"
                   required
                 />
               </div>
-              {error && <p className="text-red-500">{error}</p>}
-              <div className="ml-0 flex mt-8 justify-center">
-                <Link
+
+              <button
+                type="submit"
+                className="w-full text-white bg-primary-600 hover:bg-primary font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+              >
+                Sign in
+              </button>
+              <p className="text-sm font-light text-white">
+                Don’t have an account yet?{" "}
+                <a
                   href="/signup"
-                  className="w-full text-left py-2 hover:underline hover:text-primary"
+                  className="font-medium text-primary hover:underline"
                 >
-                  New User? Sign Up
-                </Link>
-                <SubmitButton text="Login" />
-              </div>
-            </div>
-          </form>
+                  Sign up
+                </a>
+              </p>
+            </form>
+          </div>
         </div>
       </div>
-    </>
+    </section>
   );
 }
