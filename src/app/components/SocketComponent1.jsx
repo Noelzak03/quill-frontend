@@ -5,7 +5,7 @@ import Chat from "./Chatbox";
 import useWebSocket from "react-use-websocket";
 import { useState } from "react";
 import Player from "./lobbyplayer";
-// import Quill from "./Quilltext";
+import Quill from "./Quilltext";
 import { SyncState } from "@/app/collab";
 import Link from "next/link";
 import dynamic from "next/dynamic";
@@ -169,7 +169,9 @@ const WebSocketComponent = ({ token, username }) => {
   if (error) {
     return (
       <div className="flex flex-col">
-        <div className="my-8">{/* <Quill /> */}</div>
+        <div className="my-8">
+          <Quill />
+        </div>
         <div className="flex flex-col items-center justify-center m-8">
           <div>
             <Link
@@ -184,41 +186,46 @@ const WebSocketComponent = ({ token, username }) => {
     );
   } else if (gameStarted === "lobby") {
     return (
-      <section className="bg-secondary min-h-screen flex items-center justify-center">
-        <div className="flex-col justify-center items-center w-full p-6 mt-24">
-          <div className=" text-primary text-xl font-semibold font-lexend my-4">
-            Room Id: {roomid}
-          </div>
-          <div>
-            {owner && users.length > 1 && (
-              <button
-                className="p-2 sm:font-medium text-white border-2 border-primary bg-secondary hover:text-secondary hover:bg-primary text-center"
-                onClick={startGame}
-              >
-                Start Game
-              </button>
-            )}
-          </div>
-          <div className="flex flex-col sm:flex-row">
+      <div className="flex flex-col">
+        <div className="my-8">
+          <Quill />
+        </div>
+        <div className="flex flex-row gap-4">
+          <div className="flex flex-col justify-start flex-grow pl-4">
             <div className="flex-grow">
               {users.map((person, index) => (
                 <Player key={index} name={person.username} isPlaying={false} />
               ))}
             </div>
-            <div className="flex-none flex justify-center items-center">
-              <Chat
-                chatMessages={chatmessages}
-                sendJsonMessage={sendJsonMessage}
-              />
+            <div>
+              {owner && users.length > 1 && (
+                <button
+                  className="p-2 m-2 sm:font-medium text-white border-2 border-primary bg-secondary hover:text-secondary hover:bg-primary text-center"
+                  onClick={startGame}
+                >
+                  Start Game
+                </button>
+              )}
             </div>
           </div>
+          <div className="justify-end pr-4">
+            <Chat
+              chatMessages={chatmessages}
+              sendJsonMessage={sendJsonMessage}
+            />
+          </div>
         </div>
-      </section>
+        <div className="my-4 text-primary text-xl font-semibold pl-4 font-lexend">
+          Room Id: {roomid}
+        </div>
+      </div>
     );
   } else if (gameStarted === "ongoing") {
     return (
       <div className="flex flex-col">
-        <div className="my-8">{/* <Quill /> */}</div>
+        <div className="my-8">
+          <Quill />
+        </div>
         <div className="flex flex-row px-6">
           <div className="flex-grow">
             <div className="flex justify-between">
@@ -280,7 +287,9 @@ const WebSocketComponent = ({ token, username }) => {
   } else {
     return (
       <div className="flex flex-col">
-        <div className="my-8">{/* <Quill /> */}</div>
+        <div className="my-8">
+          <Quill />
+        </div>
         <Link
           href="/"
           className=" text-white border-2 p-4 my-4 mx-6 border-primary bg-secondary hover:bg-primary hover:text-secondary text-center"
