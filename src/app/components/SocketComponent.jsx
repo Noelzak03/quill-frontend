@@ -199,7 +199,7 @@ const WebSocketComponent = ({ token, username }) => {
               </button>
             )}
           </div>
-          <div className="flex flex-col sm:flex-row">
+          <div className="flex">
             <div className="flex-grow">
               {users.map((person, index) => (
                 <Player key={index} name={person.username} isPlaying={false} />
@@ -217,70 +217,74 @@ const WebSocketComponent = ({ token, username }) => {
     );
   } else if (gameStarted === "ongoing") {
     return (
-      <div className="flex flex-col">
-        <div className="my-8">{/* <Quill /> */}</div>
-        <div className="flex flex-row px-6">
-          <div className="flex-grow">
-            <div className="flex justify-between">
-              <div className="justify-start">
-                {isDrawing ? (
-                  <p className="text-lg font-semibold text-primary">
-                    Word to Draw: {word}
-                  </p>
-                ) : (
-                  <Underscores word={word} />
-                )}
-              </div>
-              <div className="justify-end">
-                <Timer expiryTimestamp={time} shouldRestart={restartTimer} />
+      <section className="bg-secondary min-h-screen flex items-center justify-center">
+        <div className="flex-col w-full p-6 mt-24">
+          <div className="flex flex-row">
+            <div className="flex flex-row">
+              {users.map((person, index) => (
+                <Player
+                  key={index}
+                  name={person.username}
+                  isPlaying={currentdrawingplayer === person.username}
+                />
+              ))}
+            </div>
+          </div>
+          <div className="flex flex-row">
+            <div className="flex-grow">
+              <div className="flex flex-col justify-between">
+                <div className="justify-start">
+                  {isDrawing ? (
+                    <p className="text-lg font-semibold text-primary">
+                      Word to Draw: {word}
+                    </p>
+                  ) : (
+                    <Underscores word={word} />
+                  )}
+                </div>
+                <div className="justify-end">
+                  <Timer expiryTimestamp={time} shouldRestart={restartTimer} />
+                </div>
               </div>
             </div>
           </div>
-        </div>
-        <div className="flex flex-row px-6">
-          <div className="flex-grow">
-            {isDrawing == null ? (
-              <div className="flex items-center justify-center">
-                <p className="text-primary font-lexend text-2xl">
-                  The word is {word}. Brace yourself, the next round is coming.
-                </p>
-              </div>
-            ) : (
-              <Excalidraw
-                theme="dark"
-                viewModeEnabled={!isDrawing}
-                zenModeEnabled={true}
-                isCollaborating={true}
-                onChange={onCanvasChange}
-                excalidrawAPI={(api) => setExcalidrawAPI(api)}
-                UIOptions={excalidrawUIOptions}
+
+          <div className="flex flex-col md:flex-row">
+            <div className="max-md:h-96 flex-grow mb-6 md:mb-0 mr-3">
+              {isDrawing == null ? (
+                <div className="flex items-center justify-center">
+                  <p className="text-primary font-lexend text-2xl">
+                    The word is {word}. Brace yourself, the next round is
+                    coming.
+                  </p>
+                </div>
+              ) : (
+                <Excalidraw
+                  theme="dark"
+                  viewModeEnabled={!isDrawing}
+                  zenModeEnabled={true}
+                  isCollaborating={true}
+                  onChange={onCanvasChange}
+                  excalidrawAPI={(api) => setExcalidrawAPI(api)}
+                  UIOptions={excalidrawUIOptions}
+                />
+              )}
+            </div>
+
+            <div className="flex flex-none justify-center items-center">
+              <Chat
+                chatMessages={chatmessages}
+                sendJsonMessage={sendJsonMessage}
               />
-            )}
-          </div>
-          <div className="justify-end pl-6">
-            <Chat
-              chatMessages={chatmessages}
-              sendJsonMessage={sendJsonMessage}
-            />
+            </div>
           </div>
         </div>
-        <div className="flex flex-row">
-          <div className="flex flex-row pl-6">
-            {users.map((person, index) => (
-              <Player
-                key={index}
-                name={person.username}
-                isPlaying={currentdrawingplayer === person.username}
-              />
-            ))}
-          </div>
-        </div>
-      </div>
+      </section>
     );
   } else {
     return (
       <div className="flex flex-col">
-        <div className="my-8">{/* <Quill /> */}</div>
+        <div className="my-8"></div>
         <Link
           href="/"
           className=" text-white border-2 p-4 my-4 mx-6 border-primary bg-secondary hover:bg-primary hover:text-secondary text-center"
