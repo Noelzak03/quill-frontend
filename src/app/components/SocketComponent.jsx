@@ -54,7 +54,7 @@ const WebSocketComponent = ({ token, username }) => {
     const underscores = word
       .split("")
       .map((char, index) => (
-        <span key={index}>{char === " " ? " " : " _ "}</span>
+        <span key={index}>{char === " " ? "/" : " _ "}</span>
       ));
 
     return (
