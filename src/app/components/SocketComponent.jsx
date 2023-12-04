@@ -168,19 +168,18 @@ const WebSocketComponent = ({ token, username }) => {
 
   if (error) {
     return (
-      <div className="flex flex-col">
-        <div className="my-8">{/* <Quill /> */}</div>
+      <section className="bg-secondary min-h-screen flex items-center justify-center">
         <div className="flex flex-col items-center justify-center m-8">
           <div>
             <Link
               href="/join"
-              className="p-2 text-sm sm:text-lg text-white border-2 border-primary bg-secondary hover:bg-primary hover:text-secondary text-center"
+              className="p-2 text-sm sm:text-lg text-white border-2 border-primary bg-secondary hover:underline hover:text-primary text-center"
             >
               {error}
             </Link>
           </div>
         </div>
-      </div>
+      </section>
     );
   } else if (gameStarted === "lobby") {
     return (
