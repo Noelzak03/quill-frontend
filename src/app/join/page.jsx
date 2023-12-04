@@ -1,7 +1,5 @@
 //joinroom
 "use client";
-import Quill from "../components/Quilltext";
-import { SubmitButton } from "../components/Formsubmit";
 
 import Link from "next/link";
 
@@ -21,37 +19,54 @@ export default function join() {
   };
 
   return (
-    <>
-      <div className="bg-transparent md:fixed z-10 p-2 sm:p-10">
-        <Quill />
-        <div className="w-full">
-          <form ref={ref} onSubmit={action} className="">
-            <div className="p-16 flex-col justify-center">
-              <h2 className="text-4xl font-semibold my-20">Join Room</h2>
-              <h3 className="mt-12 mb-3">Enter Room Id</h3>
-              <div className="mb-4">
+    <section className="bg-secondary min-h-screen">
+      <div className="flex flex-col items-center justify-center min-h-screen px-6 py-8 mx-auto lg:py-0">
+        <div className="w-full bg-secondary rounded-lg shadow border md:mt-0 sm:max-w-md xl:p-0 border-primary">
+          <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
+            <h1 className="text-xl font-bold leading-tight tracking-tight text-white md:text-2xl">
+              Join a Room
+            </h1>
+            <form
+              className="space-y-4 md:space-y-6"
+              ref={ref}
+              onSubmit={action}
+            >
+              <div>
+                <label
+                  for="roomid"
+                  className="block mb-2 text-sm font-medium text-white"
+                >
+                  RoomId
+                </label>
                 <input
                   type="text"
                   id="roomid"
                   name="roomid"
-                  className="w-full md:w-[30rem] border p-2 bg-secondary border-primary"
-                  placeholder="Room Id"
+                  placeholder="RoomId"
+                  className="bg-secondary border border-primary text-primary sm:text-sm rounded-lg  block w-full p-2.5 "
                   required
                 />
               </div>
-              <div className="ml-0 flex mt-8 justify-center">
-                <Link
+
+              <button
+                type="submit"
+                className="w-full text-white bg-primary-600 hover:bg-primary font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+              >
+                Join Room
+              </button>
+              <p className="text-sm font-light text-white">
+                Want to create a room?{" "}
+                <a
                   href="/room"
-                  className="w-full text-left py-2 hover:underline hover:text-primary"
+                  className="font-medium text-primary hover:underline"
                 >
-                  Want to create room?
-                </Link>
-                <SubmitButton text="Join Room" />
-              </div>
-            </div>
-          </form>
+                  Create Room
+                </a>
+              </p>
+            </form>
+          </div>
         </div>
       </div>
-    </>
+    </section>
   );
 }

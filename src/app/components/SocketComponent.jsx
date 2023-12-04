@@ -5,7 +5,6 @@ import Chat from "./Chatbox";
 import useWebSocket from "react-use-websocket";
 import { useState } from "react";
 import Player from "./lobbyplayer";
-import Quill from "./Quilltext";
 import { SyncState } from "@/app/collab";
 import Link from "next/link";
 import dynamic from "next/dynamic";
@@ -54,7 +53,7 @@ const WebSocketComponent = ({ token, username }) => {
     const underscores = word
       .split("")
       .map((char, index) => (
-        <span key={index}>{char === " " ? " " : " _ "}</span>
+        <span key={index}>{char === " " ? "/" : " _ "}</span>
       ));
 
     return (
@@ -168,139 +167,135 @@ const WebSocketComponent = ({ token, username }) => {
 
   if (error) {
     return (
-      <div className="flex flex-col">
-        <div className="my-8">
-          <Quill />
-        </div>
+      <section className="bg-secondary min-h-screen flex items-center justify-center">
         <div className="flex flex-col items-center justify-center m-8">
           <div>
             <Link
               href="/join"
-              className="p-2 text-sm sm:text-lg text-white border-2 border-primary bg-secondary hover:bg-primary hover:text-secondary text-center"
+              className="p-2 text-sm sm:text-lg text-white border-2 border-primary bg-secondary hover:underline hover:text-primary text-center"
             >
               {error}
             </Link>
           </div>
         </div>
-      </div>
+      </section>
     );
   } else if (gameStarted === "lobby") {
     return (
-      <div className="flex flex-col">
-        <div className="my-8">
-          <Quill />
-        </div>
-        <div className="flex flex-row gap-4">
-          <div className="flex flex-col justify-start flex-grow pl-4">
+      <section className="bg-secondary min-h-screen flex items-center justify-center">
+        <div className="flex-col justify-center items-center w-full p-6 mt-24">
+          <div className=" text-primary text-xl font-semibold font-lexend my-4">
+            Room Id: {roomid}
+          </div>
+          <div>
+            {owner && users.length > 1 && (
+              <button
+                className="p-2 sm:font-medium text-white border-2 border-primary bg-secondary hover:text-secondary hover:bg-primary text-center"
+                onClick={startGame}
+              >
+                Start Game
+              </button>
+            )}
+          </div>
+          <div className="flex">
             <div className="flex-grow">
               {users.map((person, index) => (
                 <Player key={index} name={person.username} isPlaying={false} />
               ))}
             </div>
-            <div>
-              {owner && users.length > 1 && (
-                <button
-                  className="p-2 m-2 sm:font-medium text-white border-2 border-primary bg-secondary hover:text-secondary hover:bg-primary text-center"
-                  onClick={startGame}
-                >
-                  Start Game
-                </button>
-              )}
+            <div className="flex-none flex justify-center items-center">
+              <Chat
+                chatMessages={chatmessages}
+                sendJsonMessage={sendJsonMessage}
+              />
             </div>
           </div>
-          <div className="justify-end pr-4">
-            <Chat
-              chatMessages={chatmessages}
-              sendJsonMessage={sendJsonMessage}
-            />
-          </div>
         </div>
-        <div className="my-4 text-primary text-xl font-semibold pl-4 font-lexend">
-          Room Id: {roomid}
-        </div>
-      </div>
+      </section>
     );
   } else if (gameStarted === "ongoing") {
     return (
-      <div className="flex flex-col">
-        <div className="my-8">
-          <Quill />
-        </div>
-        <div className="flex flex-row px-6">
-          <div className="flex-grow">
-            <div className="flex justify-between">
-              <div className="justify-start">
-                {isDrawing ? (
-                  <p className="text-lg font-semibold text-primary">
-                    Word to Draw: {word}
-                  </p>
-                ) : (
-                  <Underscores word={word} />
-                )}
-              </div>
-              <div className="justify-end">
-                <Timer expiryTimestamp={time} shouldRestart={restartTimer} />
+      <section className="bg-secondary min-h-screen flex items-center justify-center">
+        <div className="flex-col w-full p-6 mt-24">
+          <div className="flex flex-row">
+            <div className="flex flex-row">
+              {users.map((person, index) => (
+                <Player
+                  key={index}
+                  name={person.username}
+                  isPlaying={currentdrawingplayer === person.username}
+                />
+              ))}
+            </div>
+          </div>
+          <div className="flex flex-row">
+            <div className="flex-grow">
+              <div className="flex flex-col justify-between">
+                <div className="justify-start">
+                  {isDrawing ? (
+                    <p className="text-lg font-semibold text-primary">
+                      Word to Draw: {word}
+                    </p>
+                  ) : (
+                    <Underscores word={word} />
+                  )}
+                </div>
+                <div className="justify-end">
+                  <Timer expiryTimestamp={time} shouldRestart={restartTimer} />
+                </div>
               </div>
             </div>
           </div>
-        </div>
-        <div className="flex flex-row px-6">
-          <div className="flex-grow">
-            {isDrawing == null ? (
-              <div className="flex items-center justify-center">
-                <p className="text-primary font-lexend text-2xl">
-                  The word is {word}. Brace yourself, the next round is coming.
-                </p>
-              </div>
-            ) : (
-              <Excalidraw
-                theme="dark"
-                viewModeEnabled={!isDrawing}
-                zenModeEnabled={true}
-                isCollaborating={true}
-                onChange={onCanvasChange}
-                excalidrawAPI={(api) => setExcalidrawAPI(api)}
-                UIOptions={excalidrawUIOptions}
+
+          <div className="flex flex-col md:flex-row">
+            <div className="max-md:h-96 flex-grow mb-6 md:mb-0 mr-3">
+              {isDrawing == null ? (
+                <div className="flex items-center justify-center">
+                  <p className="text-primary font-lexend text-2xl">
+                    The word is {word}. Brace yourself, the next round is
+                    coming.
+                  </p>
+                </div>
+              ) : (
+                <Excalidraw
+                  theme="dark"
+                  viewModeEnabled={!isDrawing}
+                  zenModeEnabled={true}
+                  isCollaborating={true}
+                  onChange={onCanvasChange}
+                  excalidrawAPI={(api) => setExcalidrawAPI(api)}
+                  UIOptions={excalidrawUIOptions}
+                />
+              )}
+            </div>
+
+            <div className="flex flex-none justify-center items-center">
+              <Chat
+                chatMessages={chatmessages}
+                sendJsonMessage={sendJsonMessage}
               />
-            )}
-          </div>
-          <div className="justify-end pl-6">
-            <Chat
-              chatMessages={chatmessages}
-              sendJsonMessage={sendJsonMessage}
-            />
+            </div>
           </div>
         </div>
-        <div className="flex flex-row">
-          <div className="flex flex-row pl-6">
-            {users.map((person, index) => (
-              <Player
-                key={index}
-                name={person.username}
-                isPlaying={currentdrawingplayer === person.username}
-              />
-            ))}
-          </div>
-        </div>
-      </div>
+      </section>
     );
   } else {
     return (
-      <div className="flex flex-col">
-        <div className="my-8">
-          <Quill />
+      <section className="bg-secondary min-h-screen flex items-center justify-center">
+        <div className="flex flex-col">
+          <div className="my-8"></div>
+          <Link
+            href="/"
+            className=" text-white border-2 p-4 my-4 mx-6 border-primary bg-secondary  hover:text-primary hover:underline text-center"
+          >
+            <h2 className="text-lg font-semibold mb-2">Game Ended</h2>
+            <p href="/" className="text-sm">
+              Thank you for playing! Feel free to start a new game or join
+              another one.
+            </p>
+          </Link>
         </div>
-        <Link
-          href="/"
-          className=" text-white border-2 p-4 my-4 mx-6 border-primary bg-secondary hover:bg-primary hover:text-secondary text-center"
-        >
-          <h2 className="text-lg font-semibold mb-2">Game Ended</h2>
-          <p href="/" className="text-sm">
-            Thank you for playing! Feel free to start a new game or join another
-            one.
-          </p>
-        </Link>
-      </div>
+      </section>
     );
   }
 };

@@ -1,10 +1,10 @@
 //Sign Up Page
 
 "use client";
-import Quill from "../components/Quilltext";
+// import Quill from "../components/Quilltext";
 import Link from "next/link";
 import { signup } from "../actions";
-import { SubmitButton } from "../components/Formsubmit";
+// import { SubmitButton } from "../components/Formsubmit";
 import { useRef, useState } from "react";
 
 export default function Signup() {
@@ -38,54 +38,86 @@ export default function Signup() {
   };
 
   return (
-    <div className="bg-transparent md:fixed z-10 p-2 sm:p-10">
-      <Quill />
-      <div className="w-full">
-        <form ref={ref} onSubmit={action} className="">
-          <div className="p-16 flex-col justify-center">
-            <h2 className="text-4xl font-semibold mb-4 my-20">Welcome!</h2>
-            <h3 className="mt-12 mb-3">Create a new account</h3>
-            <div className="mb-4">
-              <input
-                type="text"
-                name="username"
-                className="w-full md:w-[30rem] border p-2 bg-secondary border-primary"
-                placeholder="Username"
-                required
-              />
-            </div>
-            <div className="my-6">
-              <input
-                type="password"
-                name="password"
-                className="w-full md:w-[30rem] border p-2 bg-secondary border-primary"
-                placeholder="Password"
-                minLength={8}
-                required
-              />
-            </div>
-            <div className="my-6">
-              <input
-                type="password"
-                name="confirmPassword"
-                className="w-full md:w-[30rem] border p-2 bg-secondary border-primary"
-                placeholder="Confirm Password"
-                required
-              />
-            </div>
-            {error && <p className="text-red-500">{error}</p>}
-            <div className="ml-0 flex mt-8 justify-center">
-              <Link
-                href="/login"
-                className="w-full text-left py-2 hover:underline hover:text-primary"
+    <section className="bg-secondary min-h-screen">
+      <div className="flex flex-col items-center justify-center min-h-screen px-6 py-8 mx-auto lg:py-0">
+        <div className="w-full bg-secondary rounded-lg shadow border md:mt-0 sm:max-w-md xl:p-0 border-primary">
+          <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
+            <h1 className="text-xl font-bold leading-tight tracking-tight text-white md:text-2xl">
+              Create a new account
+            </h1>
+            <form
+              className="space-y-4 md:space-y-6"
+              ref={ref}
+              onSubmit={action}
+            >
+              <div>
+                <label
+                  for="username"
+                  className="block mb-2 text-sm font-medium text-white"
+                >
+                  Your username
+                </label>
+                <input
+                  type="text"
+                  id="username"
+                  name="username"
+                  placeholder="username"
+                  className="bg-secondary border border-primary text-primary sm:text-sm rounded-lg  block w-full p-2.5 "
+                  required
+                />
+              </div>
+              <div>
+                <label
+                  for="password"
+                  className="block mb-2 text-sm font-medium text-white"
+                >
+                  Password
+                </label>
+                <input
+                  type="password"
+                  id="password"
+                  name="password"
+                  placeholder="••••••••"
+                  className="bg-secondary border border-primary text-primary sm:text-sm rounded-lg  block w-full p-2.5"
+                  required
+                />
+              </div>
+              <div>
+                <label
+                  for="confirmPassword"
+                  className="block mb-2 text-sm font-medium text-white"
+                >
+                  Password
+                </label>
+                <input
+                  type="password"
+                  id="confirmPassword"
+                  name="confirmPassword"
+                  placeholder="••••••••"
+                  className="bg-secondary border border-primary text-primary sm:text-sm rounded-lg  block w-full p-2.5"
+                  required
+                />
+              </div>
+
+              <button
+                type="submit"
+                className="w-full text-white bg-primary-600 hover:bg-primary font-medium rounded-lg text-sm px-5 py-2.5 text-center"
               >
-                Have an account?
-              </Link>
-              <SubmitButton text="Register" />
-            </div>
+                Sign up
+              </button>
+              <p className="text-sm font-light text-white">
+                Have na account?{" "}
+                <a
+                  href="/login"
+                  className="font-medium text-primary hover:underline"
+                >
+                  Login
+                </a>
+              </p>
+            </form>
           </div>
-        </form>
+        </div>
       </div>
-    </div>
+    </section>
   );
 }
