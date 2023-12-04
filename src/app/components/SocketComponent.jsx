@@ -283,19 +283,21 @@ const WebSocketComponent = ({ token, username }) => {
     );
   } else {
     return (
-      <div className="flex flex-col">
-        <div className="my-8"></div>
-        <Link
-          href="/"
-          className=" text-white border-2 p-4 my-4 mx-6 border-primary bg-secondary hover:bg-primary hover:text-secondary text-center"
-        >
-          <h2 className="text-lg font-semibold mb-2">Game Ended</h2>
-          <p href="/" className="text-sm">
-            Thank you for playing! Feel free to start a new game or join another
-            one.
-          </p>
-        </Link>
-      </div>
+      <section className="bg-secondary min-h-screen flex items-center justify-center">
+        <div className="flex flex-col">
+          <div className="my-8"></div>
+          <Link
+            href="/"
+            className=" text-white border-2 p-4 my-4 mx-6 border-primary bg-secondary  hover:text-primary hover:underline text-center"
+          >
+            <h2 className="text-lg font-semibold mb-2">Game Ended</h2>
+            <p href="/" className="text-sm">
+              Thank you for playing! Feel free to start a new game or join
+              another one.
+            </p>
+          </Link>
+        </div>
+      </section>
     );
   }
 };
