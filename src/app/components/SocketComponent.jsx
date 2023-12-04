@@ -5,7 +5,6 @@ import Chat from "./Chatbox";
 import useWebSocket from "react-use-websocket";
 import { useState } from "react";
 import Player from "./lobbyplayer";
-// import Quill from "./Quilltext";
 import { SyncState } from "@/app/collab";
 import Link from "next/link";
 import dynamic from "next/dynamic";
